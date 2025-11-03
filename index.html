@@ -5,87 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lucketts Elementary PTA Turkey Drive 2025</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    /* ---------- Base Styles ---------- */
-    body {
-      font-family: 'Comic Sans MS', sans-serif;
-      background-color: #fff8e1;
-      color: #5a3d1e;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #f28c28;
-      color: white;
-      padding: 1em 0;
-      border-bottom: 4px solid #d46a00;
-    }
-    h1 {
-      margin: 0.2em 0;
-    }
-    h2 {
-      color: #5a3d1e;
-      margin-top: 1.5em;
-    }
-    /* ---------- Progress Bar ---------- */
-    #progress-bar {
-      width: 80%;
-      height: 40px;
-      background: #f1ede1;
-      margin: 20px auto;
-      border-radius: 20px;
-      overflow: hidden;
-      border: 2px solid #d46a00;
-    }
-    #progress-fill {
-      height: 100%;
-      width: 0%;
-      background: #76c043;
-      transition: width 1s ease-in-out;
-    }
-    #progress-text {
-      font-size: 1.2em;
-      margin-top: 10px;
-    }
-    #last-updated {
-      font-size: 0.9em;
-      color: gray;
-      margin-top: 5px;
-    }
-    /* ---------- Buttons ---------- */
-    button {
-      background-color: #f28c28;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 25px;
-      font-size: 1.1em;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #d46a00;
-    }
-    /* ---------- Footer ---------- */
-    footer {
-      margin-top: 40px;
-      padding: 1em 0;
-      background-color: #f28c28;
-      color: white;
-      border-top: 4px solid #d46a00;
-    }
-    /* ---------- Responsive ---------- */
-    @media (max-width: 600px) {
-      #progress-bar {
-        width: 90%;
-        height: 30px;
-      }
-      button {
-        font-size: 1em;
-        padding: 10px 20px;
-      }
-    }
-  </style>
 </head>
 <body>
   <header>
@@ -97,8 +16,13 @@
     <section id="tracker">
       <h2>Goal: 200 Families Fed</h2>
 
-      <div id="progress-bar">
-        <div id="progress-fill"></div>
+      <!-- Turkey thermometer -->
+      <div id="turkey-tracker">
+        <div id="thermo-outline">
+          <div id="thermo-fill"></div>
+          <div id="thermo-bulb"></div>
+        </div>
+        <img id="turkey-image" src="assets/turkey.png" alt="Turkey Tracker" />
       </div>
 
       <p id="progress-text">Loading...</p>
@@ -117,7 +41,6 @@
     <p>#Lucketts #ThankfulTogether #TurkeyDrive2025</p>
   </footer>
 
-  <!-- Load the main script -->
   <script src="script.js"></script>
 </body>
 </html>
