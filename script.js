@@ -23,7 +23,10 @@ async function loadProgress() {
     const updated = document.getElementById("last-updated");
 
     if (fill) fill.style.width = percent + "%";
-    if (thermo) thermo.style.height = percent + "%";
+    if (thermo) {
+      thermo.style.height = percent + "%";
+      thermo.classList.add("animate");
+}
     if (text) text.textContent = `${familiesFed} / ${goal} Families Fed`;
 
     // 3️⃣ Get the latest commit date for "Last Updated"
