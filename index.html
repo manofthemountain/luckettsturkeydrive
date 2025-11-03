@@ -3,8 +3,62 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lucketts PTA Turkey Drive 2025</title>
+  <title>Lucketts Elementary PTA Turkey Drive 2025</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* fallback styles if style.css fails to load */
+    body {
+      font-family: 'Comic Sans MS', sans-serif;
+      background-color: #fff8e1;
+      color: #5a3d1e;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #f28c28;
+      color: white;
+      padding: 1em 0;
+      border-bottom: 4px solid #d46a00;
+    }
+    h1 {
+      margin: 0.2em 0;
+    }
+    #progress-bar {
+      width: 80%;
+      height: 40px;
+      background: #f1ede1;
+      margin: 20px auto;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid #d46a00;
+    }
+    #progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #76c043;
+      transition: width 0.5s ease-in-out;
+    }
+    button {
+      background-color: #f28c28;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-size: 1.1em;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #d46a00;
+    }
+    footer {
+      margin-top: 40px;
+      padding: 1em 0;
+      background-color: #f28c28;
+      color: white;
+      border-top: 4px solid #d46a00;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -12,28 +66,30 @@
     <p>Benefiting the Lucketts Community Food Pantry</p>
   </header>
 
-  <section id="tracker">
-    <h2>Goal: 200 Families Fed</h2>
-    <div id="progress-bar">
-      <div id="progress-fill"></div>
-    </div>
-    <p id="progress-text">Loading...</p>
-    <p id="last-updated" style="font-size: 0.9em; color: gray; margin-top: 5px;">
-      Last updated: loading...
-    </p>
-  </section>
+  <main>
+    <section id="tracker">
+      <h2>Goal: 200 Families Fed</h2>
 
-  <section id="donate">
-    <p>💛 Every $10 donation helps feed a local family.</p>
-    <a href="https://luckettselementarypta.givebacks.com/shop/items/da6211884f" target="_blank">
-      <button>Donate $10</button>
-    </a>
-  </section>
+      <div id="progress-bar">
+        <div id="progress-fill"></div>
+      </div>
+
+      <p id="progress-text">Loading...</p>
+    </section>
+
+    <section id="donate">
+      <p>💛 Every $10 donation helps feed a local family.</p>
+      <a href="https://luckettselementarypta.givebacks.com/shop/items/da6211884f" target="_blank">
+        <button>Donate $10</button>
+      </a>
+    </section>
+  </main>
 
   <footer>
     <p>#Lucketts #ThankfulTogether #TurkeyDrive2025</p>
   </footer>
 
-<script src="script.js"></script>
+  <!-- JS must be at the bottom so it runs after the DOM loads -->
+  <script src="script.js"></script>
 </body>
 </html>
