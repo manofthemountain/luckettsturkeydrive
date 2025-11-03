@@ -16,25 +16,22 @@ header {
 h1 { margin: 0.2em 0; }
 h2 { margin-top: 1.5em; }
 
-/* ---------- Turkey Thermometer ---------- */
-#turkey-tracker {
-  position: relative;
-  display: inline-block;
-  margin-top: 20px;
+/* ---------- Thermometer ---------- */
+#thermo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto 10px;
 }
 
 #thermo-outline {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 40px;
-  width: 40px;
-  height: 200px;
+  position: relative;
+  width: 60px;
+  height: 250px;
   background: #f1ede1;
   border: 3px solid #d46a00;
-  border-radius: 20px;
+  border-radius: 30px;
   overflow: hidden;
-  z-index: 2;
 }
 
 #thermo-fill {
@@ -48,24 +45,17 @@ h2 { margin-top: 1.5em; }
 
 #thermo-bulb {
   position: absolute;
-  bottom: -40px;
+  bottom: -45px;
   left: 50%;
   transform: translateX(-50%);
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   background: #f28c28;
   border-radius: 50%;
   border: 3px solid #d46a00;
-  z-index: 1;
 }
 
-#turkey-image {
-  width: 180px;
-  margin-top: 50px;
-  z-index: 0;
-}
-
-/* ---------- Progress Text ---------- */
+/* ---------- Text ---------- */
 #progress-text {
   font-size: 1.2em;
   margin-top: 10px;
@@ -99,6 +89,6 @@ footer {
 
 /* ---------- Responsive ---------- */
 @media (max-width: 600px) {
-  #turkey-image { width: 140px; }
-  #thermo-outline { height: 160px; }
+  #thermo-outline { height: 200px; width: 50px; }
+  #thermo-bulb { width: 80px; height: 80px; bottom: -35px; }
 }
