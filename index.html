@@ -6,7 +6,7 @@
   <title>Lucketts Elementary PTA Turkey Drive 2025</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* fallback styles if style.css fails to load */
+    /* ---------- Base Styles ---------- */
     body {
       font-family: 'Comic Sans MS', sans-serif;
       background-color: #fff8e1;
@@ -24,6 +24,11 @@
     h1 {
       margin: 0.2em 0;
     }
+    h2 {
+      color: #5a3d1e;
+      margin-top: 1.5em;
+    }
+    /* ---------- Progress Bar ---------- */
     #progress-bar {
       width: 80%;
       height: 40px;
@@ -37,8 +42,18 @@
       height: 100%;
       width: 0%;
       background: #76c043;
-      transition: width 0.5s ease-in-out;
+      transition: width 1s ease-in-out;
     }
+    #progress-text {
+      font-size: 1.2em;
+      margin-top: 10px;
+    }
+    #last-updated {
+      font-size: 0.9em;
+      color: gray;
+      margin-top: 5px;
+    }
+    /* ---------- Buttons ---------- */
     button {
       background-color: #f28c28;
       color: white;
@@ -51,12 +66,24 @@
     button:hover {
       background-color: #d46a00;
     }
+    /* ---------- Footer ---------- */
     footer {
       margin-top: 40px;
       padding: 1em 0;
       background-color: #f28c28;
       color: white;
       border-top: 4px solid #d46a00;
+    }
+    /* ---------- Responsive ---------- */
+    @media (max-width: 600px) {
+      #progress-bar {
+        width: 90%;
+        height: 30px;
+      }
+      button {
+        font-size: 1em;
+        padding: 10px 20px;
+      }
     }
   </style>
 </head>
@@ -75,6 +102,7 @@
       </div>
 
       <p id="progress-text">Loading...</p>
+      <p id="last-updated">Loading date...</p>
     </section>
 
     <section id="donate">
@@ -89,7 +117,7 @@
     <p>#Lucketts #ThankfulTogether #TurkeyDrive2025</p>
   </footer>
 
-  <!-- JS must be at the bottom so it runs after the DOM loads -->
-<script src="./script.js"></script>
+  <!-- Load the main script -->
+  <script src="script.js"></script>
 </body>
 </html>
