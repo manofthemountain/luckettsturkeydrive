@@ -1,3 +1,4 @@
+console.log("Script loaded!");
 async function loadProgress() {
   try {
     const response = await fetch('./data/progress.json');
