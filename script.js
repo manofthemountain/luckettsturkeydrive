@@ -7,7 +7,7 @@ async function loadProgress() {
   const filePath = 'data/progress.json';
 
   try {
-    // 1️⃣ Fetch progress data
+    // 1️⃣ Fetch progress data from JSON
     const response = await fetch(progressUrl);
     if (!response.ok) throw new Error('Progress file not found');
     const data = await response.json();
@@ -16,22 +16,17 @@ async function loadProgress() {
     const goal = data.goal;
     const percent = Math.min((familiesFed / goal) * 100, 100);
 
-    // 2️⃣ Update progress bar and text
+    // 2️⃣ Update progress bar (horizontal) and thermometer (vertical)
     const fill = document.getElementById("progress-fill");
     const text = document.getElementById("progress-text");
+    const thermo = document.getElementById("thermo-fill");
     const updated = document.getElementById("last-updated");
 
-    fill.style.width = "0%"; // start from 0 for animation
-    text.textContent = "Loading progress...";
+    if (fill) fill.style.width = percent + "%";
+    if (thermo) thermo.style.height = percent + "%";
+    if (text) text.textContent = `${familiesFed} / ${goal} Families Fed`;
 
-    // Animate bar fill
-    setTimeout(() => {
-      fill.style.width = percent + "%";
-    }, 100);
-
-    text.textContent = `${familiesFed} / ${goal} Families Fed`;
-
-    // 3️⃣ Get the last commit date via GitHub API (wrapped for CORS safety)
+    // 3️⃣ Get the latest commit date for "Last Updated"
     const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(
       `https://api.github.com/repos/${repoOwner}/${repoName}/commits?path=${filePath}&page=1&per_page=1`
     )}`;
@@ -46,30 +41,31 @@ async function loadProgress() {
           const formatted = lastUpdate.toLocaleDateString('en-US', {
             year: 'numeric', month: 'short', day: 'numeric'
           });
-          updated.textContent = `Last updated: ${formatted}`;
+          if (updated) updated.textContent = `Last updated: ${formatted}`;
         } else {
-          updated.textContent = 'Last updated: unavailable';
+          if (updated) updated.textContent = `Last updated: unavailable`;
         }
       } else {
-        updated.textContent = 'Last updated: unavailable';
+        if (updated) updated.textContent = `Last updated: unavailable`;
       }
     } catch (err) {
       console.warn('Could not fetch last updated date:', err);
-      updated.textContent = '';
+      if (updated) updated.textContent = '';
     }
 
-    // 4️⃣ Optional fun animation or confetti when goal reached
+    // 4️⃣ Trigger celebration if goal reached
     if (familiesFed >= goal) {
       celebrateGoal();
     }
 
   } catch (err) {
     console.error('Error loading progress:', err);
-    document.getElementById("progress-text").textContent = "Unable to load progress.";
+    const text = document.getElementById("progress-text");
+    if (text) text.textContent = "Unable to load progress.";
   }
 }
 
-// 🎉 Simple confetti animation
+// 🎉 Confetti celebration
 function celebrateGoal() {
   const colors = ['#ffcc00', '#ff6666', '#66ccff', '#66ff99', '#ff9966'];
   for (let i = 0; i < 150; i++) {
