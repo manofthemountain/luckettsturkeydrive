@@ -124,3 +124,11 @@ footer {
   font-weight: bold;
   letter-spacing: 0.5px;
 }
+
+#matching-banner {
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+#matching-banner.fade-out {
+  opacity: 0;
+}

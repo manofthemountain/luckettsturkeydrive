@@ -19,42 +19,43 @@ async function loadProgress() {
     const banner = document.getElementById("matching-banner");
     const bannerText = document.getElementById("matching-text");
 
-    if (data.matchActive) {
-      banner.style.display = "block";
-      bannerText.textContent = data.matchMessage || "Matching donations active!";
-    } else {
-      banner.style.display = "none";
-    }
-    
-    // --- Countdown timer for match end ---
-    const countdown = document.getElementById("countdown");
+      // --- Countdown timer for match end ---
+      const countdown = document.getElementById("countdown");
 
-    if (data.matchActive && data.matchEnd && countdown) {
-      const endTime = new Date(data.matchEnd).getTime();
+      if (data.matchActive && data.matchEnd && countdown) {
+        const endTime = new Date(data.matchEnd).getTime();
 
-      function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = endTime - now;
+        function updateCountdown() {
+          const now = new Date().getTime();
+          const distance = endTime - now;
 
-        if (distance <= 0) {
-          countdown.textContent = "⏰ Matching period has ended!";
-          clearInterval(timer);
-          return;
+          if (distance <= 0) {
+            countdown.textContent = "⏰ Matching period has ended!";
+            clearInterval(timer);
+
+            // Fade out banner after short delay
+            setTimeout(() => {
+              banner.classList.remove("active");
+              banner.style.transition = "opacity 0.8s ease";
+              banner.style.opacity = 0;
+              setTimeout(() => (banner.style.display = "none"), 800);
+            }, 3000);
+            return;
+          }
+
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          countdown.textContent = `Matching ends in ${days}d ${hours}h ${minutes}m ${seconds}s`;
         }
 
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        countdown.textContent = `Matching ends in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+        updateCountdown();                // Run immediately
+        const timer = setInterval(updateCountdown, 1000); // Update every second
+      } else if (countdown) {
+        countdown.textContent = "";
       }
-
-      updateCountdown();                // run immediately
-      const timer = setInterval(updateCountdown, 1000); // update every second
-    } else if (countdown) {
-      countdown.textContent = "";
-    }
 
     // 2️⃣ Update progress bar (horizontal) and thermometer (vertical)
     const fill = document.getElementById("progress-fill");
