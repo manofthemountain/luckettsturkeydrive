@@ -16,9 +16,6 @@ async function loadProgress() {
     const goal = data.goal;
     const percent = Math.min((familiesFed / goal) * 100, 100);
     
-    const banner = document.getElementById("matching-banner");
-    const bannerText = document.getElementById("matching-text");
-
         // --- Matching banner logic with auto-hide / auto-reappear ---
     const banner = document.getElementById("matching-banner");
     const bannerText = document.getElementById("matching-text");
