@@ -1,7 +1,7 @@
 console.log("Turkey Drive Tracker script loaded!");
 
 async function loadProgress() {
-  const progressUrl = 'https://manofthemountain.github.io/luckettsturkeydrive/data/progress.json';
+  const progressUrl = './data/progress.json';
   const repoOwner = 'manofthemountain';
   const repoName = 'luckettsturkeydrive';
   const filePath = 'data/progress.json';
