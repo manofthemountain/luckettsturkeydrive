@@ -15,6 +15,7 @@ async function loadProgress() {
     const familiesFed = data.familiesFed;
     const goal = data.goal;
     const percent = Math.min((familiesFed / goal) * 100, 100);
+    
     const banner = document.getElementById("matching-banner");
     const bannerText = document.getElementById("matching-text");
 
@@ -23,6 +24,36 @@ async function loadProgress() {
       bannerText.textContent = data.matchMessage || "Matching donations active!";
     } else {
       banner.style.display = "none";
+    }
+    
+    // --- Countdown timer for match end ---
+    const countdown = document.getElementById("countdown");
+
+    if (data.matchActive && data.matchEnd && countdown) {
+      const endTime = new Date(data.matchEnd).getTime();
+
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = endTime - now;
+
+        if (distance <= 0) {
+          countdown.textContent = "⏰ Matching period has ended!";
+          clearInterval(timer);
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        countdown.textContent = `Matching ends in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      updateCountdown();                // run immediately
+      const timer = setInterval(updateCountdown, 1000); // update every second
+    } else if (countdown) {
+      countdown.textContent = "";
     }
 
     // 2️⃣ Update progress bar (horizontal) and thermometer (vertical)
