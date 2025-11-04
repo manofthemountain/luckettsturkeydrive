@@ -15,6 +15,15 @@ async function loadProgress() {
     const familiesFed = data.familiesFed;
     const goal = data.goal;
     const percent = Math.min((familiesFed / goal) * 100, 100);
+    const banner = document.getElementById("matching-banner");
+    const bannerText = document.getElementById("matching-text");
+
+    if (data.matchActive) {
+      banner.style.display = "block";
+      bannerText.textContent = data.matchMessage || "Matching donations active!";
+    } else {
+      banner.style.display = "none";
+    }
 
     // 2️⃣ Update progress bar (horizontal) and thermometer (vertical)
     const fill = document.getElementById("progress-fill");

@@ -1,4 +1,6 @@
 {
-  "familiesFed": 45,
-  "goal": 200
+  "familiesFed": 40,
+  "goal": 200,
+  "matchActive": true,
+  "matchMessage": "🔥 Valor Mission Support LLC is matching every donation up to $1,000!"
 }
