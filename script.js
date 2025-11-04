@@ -7,7 +7,6 @@ async function loadProgress() {
   const filePath = 'data/progress.json';
 
   try {
-    // 1️⃣ Fetch progress data from JSON
     const response = await fetch(progressUrl);
     if (!response.ok) throw new Error('Progress file not found');
     const data = await response.json();
@@ -15,21 +14,20 @@ async function loadProgress() {
     const familiesFed = data.familiesFed;
     const goal = data.goal;
     const percent = Math.min((familiesFed / goal) * 100, 100);
-    
-        // --- Matching banner logic with auto-hide / auto-reappear ---
+
+    // --- Matching banner logic with auto-hide / auto-reappear ---
     const banner = document.getElementById("matching-banner");
     const bannerText = document.getElementById("matching-text");
     const countdown = document.getElementById("countdown");
 
     if (banner && bannerText) {
-      // If matching is active
       if (data.matchActive) {
         banner.style.display = "block";
         banner.classList.add("active");
         banner.style.opacity = 1;
         bannerText.textContent = data.matchMessage || "Matching donations active!";
 
-        // Handle countdown if a match end date exists
+        // Handle countdown
         if (data.matchEnd && countdown) {
           const endTime = new Date(data.matchEnd).getTime();
 
@@ -41,7 +39,7 @@ async function loadProgress() {
               countdown.textContent = "⏰ Matching period has ended!";
               clearInterval(timer);
 
-              // Fade out banner after short delay
+              // Fade out banner
               setTimeout(() => {
                 banner.style.transition = "opacity 0.8s ease";
                 banner.style.opacity = 0;
@@ -59,14 +57,10 @@ async function loadProgress() {
             countdown.textContent = `Matching ends in ${days}d ${hours}h ${minutes}m ${seconds}s`;
           }
 
-          updateCountdown(); // Run immediately
+          updateCountdown();
           const timer = setInterval(updateCountdown, 1000);
-        } else if (countdown) {
-          countdown.textContent = "";
-        }
-      } 
-      // If matching is NOT active
-      else {
+        } else if (countdown) countdown.textContent = "";
+      } else {
         banner.classList.remove("active");
         banner.style.transition = "opacity 0.8s ease";
         banner.style.opacity = 0;
@@ -74,7 +68,7 @@ async function loadProgress() {
       }
     }
 
-    // 2️⃣ Update progress bar (horizontal) and thermometer (vertical)
+    // --- Update progress bar ---
     const fill = document.getElementById("progress-fill");
     const text = document.getElementById("progress-text");
     const thermo = document.getElementById("thermo-fill");
@@ -84,10 +78,10 @@ async function loadProgress() {
     if (thermo) {
       thermo.style.height = percent + "%";
       thermo.classList.add("animate");
-}
+    }
     if (text) text.textContent = `${familiesFed} / ${goal} Families Fed`;
 
-    // 3️⃣ Get the latest commit date for "Last Updated"
+    // --- Get "Last Updated" date ---
     const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(
       `https://api.github.com/repos/${repoOwner}/${repoName}/commits?path=${filePath}&page=1&per_page=1`
     )}`;
@@ -103,21 +97,19 @@ async function loadProgress() {
             year: 'numeric', month: 'short', day: 'numeric'
           });
           if (updated) updated.textContent = `Last updated: ${formatted}`;
-        } else {
-          if (updated) updated.textContent = `Last updated: unavailable`;
-        }
-      } else {
-        if (updated) updated.textContent = `Last updated: unavailable`;
+        } else if (updated) updated.textContent = "Last updated: unavailable";
       }
     } catch (err) {
       console.warn('Could not fetch last updated date:', err);
       if (updated) updated.textContent = '';
     }
 
-    // 4️⃣ Trigger celebration if goal reached
-    if (familiesFed >= goal) {
-      celebrateGoal();
-    }
+    // --- Confetti Celebration ---
+    if (familiesFed >= goal) celebrateGoal();
+
+    // --- Reach goals / status (on hold) ---
+    // const goalList = document.getElementById("goal-list");
+    // const statusEl = document.getElementById("campaign-status");
 
   } catch (err) {
     console.error('Error loading progress:', err);
@@ -147,9 +139,7 @@ function celebrateGoal() {
       confetti.style.opacity = 0;
     }, 50 + Math.random() * 100);
 
-    setTimeout(() => {
-      confetti.remove();
-    }, 4000);
+    setTimeout(() => confetti.remove(), 4000);
   }
 
   alert("🎉 Goal reached! 200 families fed — thank you, Lucketts!");
