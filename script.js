@@ -73,7 +73,7 @@ async function loadProgress() {
     // --- Progress text & celebration ---
     if (text) {
       let msg = `${familiesFed} / ${goal} Families Fed`;
-      if (familiesFed >= 200) msg += " 🎉 GOAL REACHED!";
+      if (familiesFed >= 200) msg += " 🎉 GOAL REACHED - Thank You, Lucketts!!";
       else if (familiesFed >= 100) msg += " 🦃 Incredible progress!";
       else if (familiesFed >= 50) msg += " 🥳 Halfway there!";
       text.textContent = msg;
