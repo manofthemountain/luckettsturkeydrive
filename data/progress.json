@@ -3,5 +3,10 @@
   "goal": 200,
   "matchActive": true,
   "matchMessage": "🦃 Today Valor Mission Support LLC is matching every donation up to $1,000!🦃",
-  "matchEnd": "2025-11-07T23:59:59"
+  "matchEnd": "2025-11-07T23:59:59",
+  "reachGoals": [
+    { "value": 150, "message": "All most there" },
+    { "value": 200, "message": "Goal reached! Thanksgiving celebration post" },
+    { "value": 250, "message": "Bonus food baskets for December" }
+  ]
 }
