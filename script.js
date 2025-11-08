@@ -27,23 +27,28 @@ async function loadProgress() {
         banner.classList.add("active");
         bannerText.textContent = data.matchMessage || "Matching donations active!";
 
+        // Countdown timer (updates every minute)
         if (data.matchEnd && countdown) {
           const endTime = new Date(data.matchEnd).getTime();
-          const timer = setInterval(() => {
+
+          function updateCountdown() {
             const now = Date.now();
             const distance = endTime - now;
 
             if (distance <= 0) {
-              clearInterval(timer);
               countdown.textContent = "⏰ Matching period has ended!";
+              banner.classList.remove("active");
               setTimeout(() => (banner.style.display = "none"), 4000);
               return;
             }
 
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((distance / (1000 * 60)) % 60);
             countdown.textContent = `Ends in ${hours}h ${minutes}m`;
-          }, 60000);
+          }
+
+          updateCountdown();
+          setInterval(updateCountdown, 60000);
         }
       } else {
         banner.classList.remove("active");
@@ -51,7 +56,7 @@ async function loadProgress() {
       }
     }
 
-    /* ----------------- THERMOMETER ----------------- */
+    /* ----------------- THERMOMETER FILL ----------------- */
     const thermo = document.getElementById("thermo-fill");
     if (thermo) {
       thermo.style.height = percent + "%";
@@ -68,24 +73,21 @@ async function loadProgress() {
       text.textContent = msg;
     }
 
-      /* ----------------- THERMOMETER SCALE ----------------- */
-      const scale = document.getElementById("thermo-scale");
-      if (scale) {
-        // Show 0, 50, 100, 150, and the actual goal value
-        const milestones = [0, 50, 100, 150, goal];
-        scale.innerHTML = "";
+    /* ----------------- THERMOMETER SCALE (Fixed Layout) ----------------- */
+    const scale = document.getElementById("thermo-scale");
+    if (scale) {
+      const milestones = [0, 50, 100, 150, goal];
+      scale.innerHTML = "";
 
-        milestones.forEach((val) => {
-          const tick = document.createElement("div");
-          tick.className = "thermo-tick";
-          // position along the tube
-          const pct = Math.min((val / goal) * 100, 100);
-          tick.style.bottom = `${pct}%`;
-          // label
-          tick.innerHTML = `<span>${val}</span>`;
-          scale.appendChild(tick);
-        });
-      }
+      milestones.forEach((val) => {
+        const tick = document.createElement("div");
+        tick.className = "thermo-tick";
+        const pct = Math.min((val / goal) * 100, 100);
+        tick.style.bottom = `${pct}%`;
+        tick.innerHTML = `<span>${val}</span>`;
+        scale.appendChild(tick);
+      });
+    }
 
     /* ----------------- COMMUNITY REACH GOALS ----------------- */
     const goalList = document.getElementById("goal-list");
@@ -124,24 +126,26 @@ async function loadProgress() {
 
     /* ----------------- LAST UPDATED DATE ----------------- */
     const updated = document.getElementById("last-updated");
-    const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(
-      `https://api.github.com/repos/${repoOwner}/${repoName}/commits?path=${filePath}&page=1&per_page=1`
-    )}`;
+    if (updated) {
+      const apiUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(
+        `https://api.github.com/repos/${repoOwner}/${repoName}/commits?path=${filePath}&page=1&per_page=1`
+      )}`;
 
-    try {
-      const commitResponse = await fetch(apiUrl);
-      if (commitResponse.ok) {
-        const wrapped = await commitResponse.json();
-        const commits = JSON.parse(wrapped.contents);
-        if (Array.isArray(commits) && commits.length > 0) {
-          const lastUpdate = new Date(commits[0].commit.committer.date);
-          updated.textContent = `Last updated: ${lastUpdate.toLocaleDateString('en-US', {
-            month: 'short', day: 'numeric'
-          })}`;
+      try {
+        const commitResponse = await fetch(apiUrl);
+        if (commitResponse.ok) {
+          const wrapped = await commitResponse.json();
+          const commits = JSON.parse(wrapped.contents);
+          if (Array.isArray(commits) && commits.length > 0) {
+            const lastUpdate = new Date(commits[0].commit.committer.date);
+            updated.textContent = `Last updated: ${lastUpdate.toLocaleDateString('en-US', {
+              month: 'short', day: 'numeric'
+            })}`;
+          }
         }
+      } catch (err) {
+        console.warn("Could not fetch last updated date:", err);
       }
-    } catch (err) {
-      console.warn("Could not fetch last updated date:", err);
     }
 
     /* ----------------- CONFETTI CELEBRATION ----------------- */
@@ -149,7 +153,8 @@ async function loadProgress() {
 
   } catch (err) {
     console.error("Error loading progress:", err);
-    document.getElementById("progress-text").textContent = "Unable to load progress.";
+    const text = document.getElementById("progress-text");
+    if (text) text.textContent = "Unable to load progress.";
   }
 }
 

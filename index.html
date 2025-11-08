@@ -5,11 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lucketts Elementary PTA Turkey Drive 2025</title>
   <link rel="stylesheet" href="style.css" />
+
+    <!-- Primary Meta Tags -->
+  <title>Lucketts Elementary PTA Turkey Drive 2025</title>
+  <meta name="title" content="Lucketts Elementary PTA Turkey Drive 2025">
+  <meta name="description" content="Help make Thanksgiving brighter for local families in Lucketts! Every $10 donation helps feed a family through the Lucketts Community Food Pantry.">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://luckettsturkeydrive.org/">
+  <meta property="og:title" content="Lucketts Elementary PTA Turkey Drive 2025">
+  <meta property="og:description" content="Help make Thanksgiving brighter for local families! Every $10 donation helps feed a family in Lucketts.">
+  <meta property="og:image" content="https://luckettsturkeydrive.org/images/turkey-thermometer-preview.png">
+  <meta property="og:image:alt" content="Turkey Drive progress thermometer showing families fed">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://luckettsturkeydrive.org/">
+  <meta property="twitter:title" content="Lucketts Elementary PTA Turkey Drive 2025">
+  <meta property="twitter:description" content="Every $10 donation helps feed a local family in Lucketts! Join the community effort.">
+  <meta property="twitter:image" content="https://luckettsturkeydrive.org/images/turkey-thermometer-preview.png">
+  <meta property="twitter:image:alt" content="Turkey Drive progress thermometer showing families fed">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
 </head>
+
 <body>
-  <header>
+  <header role="banner">
     <!-- Matching Banner -->
-    <div id="matching-banner" style="display:none;">
+    <div id="matching-banner" style="display:none;" aria-live="polite">
       <p id="matching-text"></p>
       <p id="countdown" style="font-size:0.9em; margin:0;"></p>
     </div>
@@ -18,39 +44,42 @@
     <p>Benefiting the Lucketts Community Food Pantry</p>
   </header>
 
-<main>
-  <!-- Donate Section -->
-  <section id="donate">
-    <p>💛 Every $10 donation helps feed a local family.</p>
-    <a href="https://luckettselementarypta.givebacks.com/shop/items/da6211884f" target="_blank">
-      <button>Donate $10</button>
-    </a>
-  </section>
+  <main role="main">
+    <!-- Donate Section -->
+    <section id="donate" aria-labelledby="donate-heading">
+      <h2 id="donate-heading" class="visually-hidden">Donate Section</h2>
+      <p>💛 Every $10 donation helps feed a local family.</p>
+      <a href="https://luckettselementarypta.givebacks.com/shop/items/da6211884f" target="_blank" rel="noopener noreferrer">
+        <button aria-label="Donate ten dollars to support a local family">Donate $10</button>
+      </a>
+    </section>
 
-  <!-- Thermometer Tracker -->
-  <section id="tracker">
-    <h2>Goal: 200 Families Fed</h2>
-    <div id="thermo-wrapper">
-      <div id="thermo-outline">
-        <div id="thermo-fill"></div>
-        <div id="thermo-bulb"></div>
-        <div id="thermo-scale"></div>
-    </div>
+    <!-- Thermometer Tracker -->
+    <section id="tracker" aria-labelledby="tracker-heading">
+      <h2 id="tracker-heading">Goal: 200 Families Fed</h2>
 
-    <p id="progress-text">Loading...</p>
-    <p id="last-updated">Loading date...</p>
-  </section>
+      <div id="thermo-wrapper" role="img" aria-label="Donation progress thermometer showing families fed">
+        <div id="thermo-outline">
+          <div id="thermo-fill" aria-hidden="true"></div>
+          <div id="thermo-bulb" aria-hidden="true"></div>
+          <div id="thermo-scale" aria-hidden="true"></div>
+        </div>
+      </div>
 
-  <!-- Reach Goals Section -->
-  <section id="reach-goals">
-    <h3>🎯 Community Reach Goals</h3>
-    <ul id="goal-list">
-      <!-- populated dynamically -->
-    </ul>
-  </section>
-</main>
+      <p id="progress-text" aria-live="polite">Loading...</p>
+      <p id="last-updated">Loading date...</p>
+    </section>
 
-  <footer>
+    <!-- Reach Goals Section -->
+    <section id="reach-goals" aria-labelledby="goals-heading">
+      <h3 id="goals-heading">🎯 Community Reach Goals</h3>
+      <ul id="goal-list" aria-live="polite">
+        <!-- Populated dynamically -->
+      </ul>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
     <p>#Lucketts #ThankfulTogether #TurkeyDrive2025</p>
   </footer>
 
