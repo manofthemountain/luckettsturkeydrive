@@ -1,6 +1,12 @@
+/* =========================================================
+   Lucketts Elementary PTA Turkey Drive 2025
+   Cleaned & Optimized CSS
+   Warm fall palette: Orange, Gold, and Rustic Brown
+   ========================================================= */
+
 /* ---------- Base Styles ---------- */
 body {
-  font-family: 'Comic Sans MS', sans-serif;
+  font-family: "Comic Sans MS", sans-serif;
   background-color: #fff8e1;
   color: #5a3d1e;
   text-align: center;
@@ -8,15 +14,76 @@ body {
   padding: 0;
 }
 
-header {
+header,
+footer {
   background: #f28c28;
-  color: white;
+  color: #fff;
   padding: 1em 0;
   border-bottom: 4px solid #d46a00;
 }
 
-h1 { margin: 0.2em 0; }
-h2 { margin-top: 1.5em; }
+footer {
+  margin-top: 40px;
+  border-top: 4px solid #d46a00;
+}
+
+h1 {
+  margin: 0.2em 0;
+}
+h2 {
+  margin-top: 1.5em;
+}
+p {
+  margin: 0.5em 0;
+}
+
+/* ---------- Buttons ---------- */
+button {
+  background-color: #f28c28;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+button:hover {
+  background-color: #d46a00;
+  transform: scale(1.05);
+}
+
+/* ---------- Matching Banner ---------- */
+#matching-banner {
+  background: linear-gradient(90deg, #ffb347, #ffcc33);
+  color: #5a3d1e;
+  text-align: center;
+  font-weight: bold;
+  padding: 0.75em;
+  font-size: 1.1em;
+  border-bottom: 3px solid #d46a00;
+  box-shadow: 0 0 10px rgba(255, 204, 51, 0.4);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  animation: pulse 3s infinite;
+}
+#matching-banner.active {
+  opacity: 1;
+}
+#countdown {
+  font-size: 0.9em;
+  margin: 0;
+  font-weight: bold;
+  color: #5a3d1e;
+}
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 204, 51, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 204, 51, 0.9);
+  }
+}
 
 /* ---------- Thermometer ---------- */
 #thermo-wrapper {
@@ -35,6 +102,18 @@ h2 { margin-top: 1.5em; }
   border-radius: 30px;
   overflow: hidden;
 }
+#thermo-outline::after {
+  content: attr(data-maxgoal);
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  background: #fff8e1;
+  color: #5a3d1e;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
 
 #thermo-fill {
   position: absolute;
@@ -45,7 +124,6 @@ h2 { margin-top: 1.5em; }
   background-size: 100% 300%;
   transition: height 1s ease-in-out, background-position 1s ease-in-out;
 }
-
 #thermo-fill.animate {
   background-position: 0% 100%;
 }
@@ -62,73 +140,43 @@ h2 { margin-top: 1.5em; }
   border: 3px solid #d46a00;
 }
 
-/* ---------- Text ---------- */
+/* ---------- Thermometer Scale ---------- */
+#thermo-scale {
+  position: absolute;
+  top: 0;
+  right: -44px;
+  width: 44px;
+  height: 100%;
+  pointer-events: none;
+}
+.thermo-tick {
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transform: translateY(50%);
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #5a3d1e;
+}
+.thermo-tick::before {
+  content: "";
+  width: 10px;
+  height: 2px;
+  background: #d46a00;
+}
+
+/* ---------- Progress Text ---------- */
 #progress-text {
   font-size: 1.3em;
   margin-top: 10px;
   font-weight: bold;
 }
-
 #last-updated {
   font-size: 0.9em;
   color: gray;
   margin-top: 5px;
-}
-
-/* ---------- Button ---------- */
-button {
-  background-color: #f28c28;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 25px;
-  font-size: 1.1em;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #d46a00;
-}
-
-/* ---------- Footer ---------- */
-footer {
-  margin-top: 40px;
-  padding: 1em 0;
-  background-color: #f28c28;
-  color: white;
-  border-top: 4px solid #d46a00;
-}
-
-/* ---------- Matching Banner ---------- */
-#matching-banner {
-  background: linear-gradient(90deg, #ffb347, #ffcc33);
-  color: #5a3d1e;
-  text-align: center;
-  font-weight: bold;
-  padding: 0.75em;
-  font-size: 1.1em;
-  border-bottom: 3px solid #d46a00;
-  box-shadow: 0 0 10px rgba(255, 204, 51, 0.4);
-  opacity: 0;
-  transition: opacity 0.8s ease;
-  animation: pulse 3s infinite;
-}
-
-#matching-banner.active {
-  opacity: 1;
-}
-
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 10px rgba(255, 204, 51, 0.5); }
-  50% { box-shadow: 0 0 20px rgba(255, 204, 51, 0.9); }
-}
-
-#countdown {
-  font-size: 0.9em;
-  margin: 0;
-  font-weight: bold;
-  color: #5a3d1e;
 }
 
 /* ---------- Reach Goals ---------- */
@@ -140,19 +188,17 @@ footer {
   margin: 1.5em auto;
   width: 80%;
   max-width: 500px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
-
 #reach-goals h3 {
   text-align: center;
   margin-bottom: 0.5em;
   color: #5a3d1e;
 }
-
 #goal-list {
   list-style: none;
   padding: 0;
 }
-
 #goal-list li {
   display: flex;
   align-items: center;
@@ -160,66 +206,77 @@ footer {
   font-size: 1em;
   transition: all 0.4s ease;
 }
-
 #goal-list input[type="checkbox"] {
   transform: scale(1.2);
   margin-right: 8px;
   accent-color: #f0b429;
 }
-
 .goal-reached label {
   font-weight: bold;
   color: #2e7d32;
 }
 
-/* ---------- Responsive ---------- */
-@media (max-width: 600px) {
-  #thermo-outline {
-    height: 200px;
-    width: 50px;
-  }
-
-  #thermo-bulb {
-    width: 80px;
-    height: 80px;
-    bottom: -35px;
-  }
-
-  button {
-    padding: 10px 20px;
-    font-size: 1em;
-  }
-}
-
-/* ---------- Thermometer Scale (fixed) ---------- */
-#thermo-scale {
+/* ---------- Stretch Effects ---------- */
+.sparkle {
   position: absolute;
-  top: 0;
-  right: -44px;        /* sits just to the right of the tube */
-  width: 44px;
-  height: 100%;
-  pointer-events: none; /* clicks pass through */
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, #fff, rgba(255,255,255,0));
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: sparkleAnim 2s ease-out infinite;
+}
+@keyframes sparkleAnim {
+  0% {
+    transform: scale(0) translateY(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.5) translateY(-10px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0) translateY(-20px);
+    opacity: 0;
+  }
 }
 
-.thermo-tick {
-  position: absolute;        /* positioned by bottom % */
-  right: 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transform: translateY(50%);/* centers the text on the tick */
-  font-weight: bold;
-  font-size: 0.9em;
+.stretch-badge {
+  display: inline-block;
+  background: #ffd700;
   color: #5a3d1e;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 8px;
+  margin-left: 10px;
+  font-size: 0.8em;
+  box-shadow: 0 0 10px rgba(255,215,0,0.5);
 }
 
-.thermo-tick::before {
-  content: "";
-  display: block;
-  width: 10px;
-  height: 2px;
-  background: #d46a00;       /* small tick line */
+/* ---------- Stretch Goal Toasts ---------- */
+.stretch-toast {
+  position: relative;
+  background: #ffeb99;
+  color: #5a3d1e;
+  font-weight: bold;
+  border: 2px solid #f0b429;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin: 10px auto;
+  width: fit-content;
+  max-width: 90%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.6s ease;
+  z-index: 10;
 }
+.stretch-toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Accessibility ---------- */
 .visually-hidden {
   position: absolute;
   left: -9999px;
@@ -228,15 +285,22 @@ footer {
   overflow: hidden;
 }
 
-#thermo-outline::after {
-  content: attr(data-maxgoal);
-  position: absolute;
-  top: -20px;
-  right: -20px;
-  background: #fff8e1;
-  color: #5a3d1e;
-  font-weight: bold;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.9em;
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+  #thermo-outline {
+    height: 200px;
+    width: 50px;
+  }
+  #thermo-bulb {
+    width: 80px;
+    height: 80px;
+    bottom: -35px;
+  }
+  button {
+    padding: 10px 20px;
+    font-size: 1em;
+  }
+  #thermo-scale {
+    right: -38px;
+  }
 }
