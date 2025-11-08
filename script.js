@@ -1,4 +1,4 @@
-console.log("Turkey Drive Tracker script loaded!");
+console.log("🦃 Turkey Drive Tracker script loaded!");
 
 // ========================= MAIN LOADER ========================= //
 async function loadProgress() {
@@ -13,18 +13,33 @@ async function loadProgress() {
     if (!response.ok) throw new Error("Progress file not found");
     const data = await response.json();
 
-    const { familiesFed, goal, reachGoals = [], matchActive, matchMessage, matchEnd } = data;
+    const {
+      familiesFed = 0,
+      goal = 200,
+      reachGoals = [],
+      matchActive = false,
+      matchMessage = "",
+      matchEnd = "",
+      driveEnd = "",
+    } = data;
+
+    // --- Check if the drive has ended --- //
+    const now = new Date();
+    const driveEndDate = driveEnd ? new Date(driveEnd) : null;
+    if (driveEndDate && now > driveEndDate) {
+      activatePostDriveMode(familiesFed, goal, data);
+      return;
+    }
 
     // --- Calculate main + stretch goals --- //
-    const maxGoal =
-      reachGoals.length > 0
-        ? Math.max(goal, ...reachGoals.map((g) => g.value))
-        : goal;
+    const maxGoal = reachGoals.length
+      ? Math.max(goal, ...reachGoals.map((g) => g.value))
+      : goal;
     const percent = Math.min((familiesFed / maxGoal) * 100, 100);
 
     document
       .getElementById("thermo-outline")
-      ?.setAttribute("data-maxgoal", `${maxGoal}`);
+      ?.setAttribute("data-maxgoal", maxGoal);
 
     /* ----------------- MATCHING BANNER ----------------- */
     handleMatchingBanner(matchActive, matchMessage, matchEnd);
@@ -35,12 +50,12 @@ async function loadProgress() {
       thermo.style.height = `${percent}%`;
       thermo.classList.add("animate");
 
+      // Color transitions by milestone
       if (familiesFed < goal * 0.5) {
         thermo.style.background = "linear-gradient(to top, #cc0000, #f28c28)";
       } else if (familiesFed < goal) {
         thermo.style.background = "linear-gradient(to top, #f28c28, #ffcc33)";
       } else {
-        // Stretch goal glow
         thermo.style.background = "linear-gradient(to top, #ffd700, #ffec8b)";
         thermo.style.boxShadow = "0 0 20px 5px rgba(255,215,0,0.6)";
         if (!thermo.classList.contains("stretch-celebrate")) {
@@ -73,9 +88,11 @@ async function loadProgress() {
 
     /* ----------------- CELEBRATION ----------------- */
     if (familiesFed >= goal) celebrateGoal();
+
   } catch (err) {
     console.error("Error loading progress:", err);
-    document.getElementById("progress-text").textContent = "Unable to load progress.";
+    const text = document.getElementById("progress-text");
+    if (text) text.textContent = "Unable to load progress.";
   }
 }
 
@@ -84,8 +101,12 @@ function handleMatchingBanner(active, message, endTime) {
   const banner = document.getElementById("matching-banner");
   const text = document.getElementById("matching-text");
   const countdown = document.getElementById("countdown");
-
   if (!banner || !text) return;
+
+  const hideBanner = () => {
+    banner.classList.remove("active");
+    setTimeout(() => (banner.style.display = "none"), 400);
+  };
 
   if (active) {
     banner.style.display = "block";
@@ -94,30 +115,21 @@ function handleMatchingBanner(active, message, endTime) {
 
     if (endTime && countdown) {
       const end = new Date(endTime).getTime();
-
-      function updateCountdown() {
-        const now = Date.now();
-        const diff = end - now;
-
+      const updateCountdown = () => {
+        const diff = end - Date.now();
         if (diff <= 0) {
           countdown.textContent = "⏰ Matching period has ended!";
-          banner.classList.remove("active");
-          setTimeout(() => (banner.style.display = "none"), 4000);
+          hideBanner();
           return;
         }
-
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff / (1000 * 60)) % 60);
         countdown.textContent = `Ends in ${hours}h ${minutes}m`;
-      }
-
+      };
       updateCountdown();
       setInterval(updateCountdown, 60000);
     }
-  } else {
-    banner.classList.remove("active");
-    banner.style.display = "none";
-  }
+  } else hideBanner();
 }
 
 // ========================= PROGRESS TEXT ========================= //
@@ -137,15 +149,14 @@ function renderThermoScale(maxGoal) {
   const scale = document.getElementById("thermo-scale");
   if (!scale) return;
 
-  const step = Math.round(maxGoal / 4 / 10) * 10;
+  const step = Math.ceil(maxGoal / 4 / 10) * 10;
   const milestones = [0, step, step * 2, step * 3, maxGoal];
   scale.innerHTML = "";
 
   milestones.forEach((val) => {
     const tick = document.createElement("div");
     tick.className = "thermo-tick";
-    const pct = Math.min((val / maxGoal) * 100, 100);
-    tick.style.bottom = `${pct}%`;
+    tick.style.bottom = `${Math.min((val / maxGoal) * 100, 100)}%`;
     tick.innerHTML = `<span>${val}</span>`;
     scale.appendChild(tick);
   });
@@ -168,7 +179,6 @@ function renderReachGoals(goals, familiesFed) {
 
     const reached = familiesFed >= g.value;
     checkbox.checked = reached;
-
     li.appendChild(checkbox);
     li.appendChild(label);
 
@@ -184,7 +194,7 @@ function renderReachGoals(goals, familiesFed) {
 
       // Toast for newly unlocked stretch goals
       const key = `goal_${g.value}`;
-      if (localStorage.getItem(key) !== "true") {
+      if (!localStorage.getItem(key)) {
         showStretchToast(`🎯 ${g.value} Families Fed — ${g.message}`);
         localStorage.setItem(key, "true");
       }
@@ -196,14 +206,15 @@ function renderReachGoals(goals, familiesFed) {
 
 // ---------- Stretch Goal Toast ----------
 function showStretchToast(message) {
+  const tracker = document.getElementById("tracker");
+  if (!tracker) return;
+
   const toast = document.createElement("div");
   toast.className = "stretch-toast";
   toast.textContent = message;
 
-  const tracker = document.getElementById("tracker");
   tracker.appendChild(toast);
-
-  setTimeout(() => toast.classList.add("visible"), 100);
+  requestAnimationFrame(() => toast.classList.add("visible"));
   setTimeout(() => toast.classList.remove("visible"), 4000);
   setTimeout(() => toast.remove(), 4500);
 }
@@ -229,43 +240,82 @@ async function updateLastModified(repoOwner, repoName, filePath) {
         day: "numeric",
       })}`;
     }
-  } catch {
-    console.warn("Could not fetch last updated date.");
+  } catch (err) {
+    console.warn("⚠️ Could not fetch last updated date.", err);
   }
 }
 
 // ========================= CELEBRATION EFFECTS ========================= //
 function celebrateGoal() {
   const colors = ["#ffcc00", "#ff6666", "#66ccff", "#66ff99", "#ff9966"];
-  for (let i = 0; i < 150; i++) {
+  for (let i = 0; i < 120; i++) {
     const confetti = document.createElement("div");
-    confetti.style.position = "fixed";
-    confetti.style.width = "8px";
-    confetti.style.height = "8px";
-    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    confetti.style.top = "-10px";
-    confetti.style.left = Math.random() * 100 + "vw";
-    confetti.style.opacity = Math.random();
-    confetti.style.transition = "top 3s ease-out, opacity 3s ease-out";
+    Object.assign(confetti.style, {
+      position: "fixed",
+      width: "8px",
+      height: "8px",
+      backgroundColor: colors[Math.floor(Math.random() * colors.length)],
+      top: "-10px",
+      left: Math.random() * 100 + "vw",
+      opacity: Math.random(),
+      transition: "top 3s ease-out, opacity 3s ease-out",
+      zIndex: 9999,
+    });
     document.body.appendChild(confetti);
-
     setTimeout(() => {
       confetti.style.top = "100vh";
       confetti.style.opacity = 0;
     }, 50 + Math.random() * 100);
-    setTimeout(() => confetti.remove(), 4000);
+    setTimeout(() => confetti.remove(), 3500);
   }
 }
 
 function createSparkles() {
-  for (let i = 0; i < 40; i++) {
+  const outline = document.getElementById("thermo-outline");
+  if (!outline) return;
+  for (let i = 0; i < 30; i++) {
     const sparkle = document.createElement("div");
     sparkle.className = "sparkle";
     sparkle.style.left = `${50 + (Math.random() - 0.5) * 40}%`;
     sparkle.style.top = `${70 - Math.random() * 60}%`;
-    document.getElementById("thermo-outline").appendChild(sparkle);
-    setTimeout(() => sparkle.remove(), 3000);
+    outline.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 2500);
   }
+}
+
+// ========================= POST-DRIVE MODE ========================= //
+function activatePostDriveMode(familiesFed, goal, data = {}) {
+  const { driveMessage, drivePhoto } = data;
+  const main = document.querySelector("main");
+  if (!main) return;
+
+  const photoSection = drivePhoto
+    ? `<div class="thankyou-photo">
+         <img src="${drivePhoto}" alt="Turkey Drive Celebration">
+       </div>`
+    : "";
+
+  const messageText =
+    driveMessage ||
+    `Because of your generosity, we fed <strong>${familiesFed}</strong> families this Thanksgiving.`;
+
+  main.innerHTML = `
+    <section id="thankyou-mode">
+      <h2>🦃 Thank You, Lucketts! 🧡</h2>
+      <p>${messageText}</p>
+      ${photoSection}
+      <div id="thankyou-thermo">
+        <div class="confetti-bg"></div>
+        <p class="tagline">Together, we made Thanksgiving brighter for our community.</p>
+      </div>
+      <a href="https://luckettselementarypta.givebacks.com/" target="_blank">
+        <button>View the 2025 Drive Results</button>
+      </a>
+    </section>
+  `;
+
+  document.body.classList.add("post-drive");
+  celebrateGoal();
 }
 
 // ========================= INIT ========================= //
