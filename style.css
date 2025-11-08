@@ -190,3 +190,33 @@ footer {
     font-size: 1em;
   }
 }
+
+/* ---------- Thermometer Scale (fixed) ---------- */
+#thermo-scale {
+  position: absolute;
+  top: 0;
+  right: -44px;        /* sits just to the right of the tube */
+  width: 44px;
+  height: 100%;
+  pointer-events: none; /* clicks pass through */
+}
+
+.thermo-tick {
+  position: absolute;        /* positioned by bottom % */
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transform: translateY(50%);/* centers the text on the tick */
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #5a3d1e;
+}
+
+.thermo-tick::before {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 2px;
+  background: #d46a00;       /* small tick line */
+}

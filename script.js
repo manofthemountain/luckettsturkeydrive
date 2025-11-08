@@ -68,18 +68,24 @@ async function loadProgress() {
       text.textContent = msg;
     }
 
-    /* ----------------- THERMOMETER SCALE ----------------- */
-    const scale = document.getElementById("thermo-scale");
-    if (scale) {
-      const milestones = [0, 50, 100, 150, 200];
-      scale.innerHTML = "";
-      milestones.forEach(val => {
-        const tick = document.createElement("div");
-        tick.style.bottom = `${(val / goal) * 100}%`;
-        tick.innerHTML = `<span>${val}</span>`;
-        scale.appendChild(tick);
-      });
-    }
+      /* ----------------- THERMOMETER SCALE ----------------- */
+      const scale = document.getElementById("thermo-scale");
+      if (scale) {
+        // Show 0, 50, 100, 150, and the actual goal value
+        const milestones = [0, 50, 100, 150, goal];
+        scale.innerHTML = "";
+
+        milestones.forEach((val) => {
+          const tick = document.createElement("div");
+          tick.className = "thermo-tick";
+          // position along the tube
+          const pct = Math.min((val / goal) * 100, 100);
+          tick.style.bottom = `${pct}%`;
+          // label
+          tick.innerHTML = `<span>${val}</span>`;
+          scale.appendChild(tick);
+        });
+      }
 
     /* ----------------- COMMUNITY REACH GOALS ----------------- */
     const goalList = document.getElementById("goal-list");
