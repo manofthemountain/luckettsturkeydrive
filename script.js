@@ -14,7 +14,16 @@ async function loadProgress() {
     const data = await response.json();
 
     const { familiesFed, goal, reachGoals } = data;
-    const percent = Math.min((familiesFed / goal) * 100, 100);
+
+    // Determine the true maximum (stretch goal if available)
+    const maxGoal = (Array.isArray(reachGoals) && reachGoals.length > 0)
+      ? Math.max(goal, ...reachGoals.map(g => g.value))
+      : goal;
+
+    // Compute fill percentage relative to the top stretch goal
+    const percent = Math.min((familiesFed / maxGoal) * 100, 100);
+
+    document.getElementById("thermo-outline").setAttribute("data-maxgoal", `${maxGoal}`);
 
     /* ----------------- MATCHING BANNER ----------------- */
     const banner = document.getElementById("matching-banner");
@@ -76,7 +85,8 @@ async function loadProgress() {
     /* ----------------- THERMOMETER SCALE (Fixed Layout) ----------------- */
     const scale = document.getElementById("thermo-scale");
     if (scale) {
-      const milestones = [0, 50, 100, 150, goal];
+      const step = Math.ceil(maxGoal / 4); // auto-adjust tick spacing
+      const milestones = [0, step, step * 2, step * 3, maxGoal];
       scale.innerHTML = "";
 
       milestones.forEach((val) => {
