@@ -21,14 +21,15 @@ async function loadProgress() {
       matchMessage = "",
       matchEnd = "",
       driveEnd = "",
+      driveMessage = "",
+      drivePhoto = ""
     } = data;
 
-    // --- Check if the drive has ended --- //
     const now = new Date();
-    const driveEnd = new Date(data.driveEnd);
-    const now = new Date();
+    const driveEndDate = driveEnd ? new Date(driveEnd) : null;
 
-    if (driveEnd && now > driveEnd) {
+    // --- Check if the drive has ended --- //
+    if (driveEndDate && now > driveEndDate) {
       activatePostDriveMode(familiesFed, goal, data);
       return;
     }
@@ -39,9 +40,10 @@ async function loadProgress() {
       : goal;
     const percent = Math.min((familiesFed / maxGoal) * 100, 100);
 
-    document
-      .getElementById("thermo-outline")
-      ?.setAttribute("data-maxgoal", maxGoal);
+    const thermoOutline = document.getElementById("thermo-outline");
+    if (thermoOutline) {
+      thermoOutline.setAttribute("data-maxgoal", maxGoal);
+    }
 
     /* ----------------- MATCHING BANNER ----------------- */
     handleMatchingBanner(matchActive, matchMessage, matchEnd);
@@ -239,7 +241,7 @@ async function updateLastModified(repoOwner, repoName, filePath) {
       const last = new Date(commits[0].commit.committer.date);
       updated.textContent = `Last updated: ${last.toLocaleDateString("en-US", {
         month: "short",
-        day: "numeric",
+        day: "numeric"
       })}`;
     }
   } catch (err) {
@@ -261,7 +263,7 @@ function celebrateGoal() {
       left: Math.random() * 100 + "vw",
       opacity: Math.random(),
       transition: "top 3s ease-out, opacity 3s ease-out",
-      zIndex: 9999,
+      zIndex: 9999
     });
     document.body.appendChild(confetti);
     setTimeout(() => {
