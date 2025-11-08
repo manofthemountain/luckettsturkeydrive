@@ -1,5 +1,5 @@
 {
-  "familiesFed": 114,
+  "familiesFed": 128,
   "goal": 200,
   "matchActive": true,
   "matchMessage": "🦃 Today Valor Mission Support LLC is matching every donation up to $1,000!🦃",
@@ -7,7 +7,7 @@
   "reachGoals": [
     { "value": 100, "message": "Half Way!" },
     { "value": 150, "message": "Almost there!" },
-    { "value": 200, "message": "🎉 Goal reached! Principal Ganley dresses up as a TURKEY!" },
+    { "value": 200, "message": "🎉 Goal reached! Principal dresses up as a TURKEY!" },
     { "value": 250, "message": "Stretch Goal 1 - Unlocked at 200" },
     { "value": 300, "message": "Stretch Goal 2 - Unlocked at 250" },
     { "value": 350, "message": "Stretch Goal 3 - Unlocked at 300" }
