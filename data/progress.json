@@ -1,18 +1,12 @@
 {
   "familiesFed": 199,
   "goal": 200,
-
-  /* ---------- Match Day Info ---------- */
   "matchActive": false,
-  "matchMessage": "🦃 Today Loudoun Glass & Mirror is matching every donation up to $1,000! 🦃",
+  "matchMessage": "🦃 Today Loudoun Glass & Mirror is matching every donation up to $1,000!🦃",
   "matchEnd": "2025-11-14T23:59:59",
-
-  /* ---------- Drive Timeline ---------- */
   "driveEnd": "2025-11-17T23:59:59",
   "driveMessage": "Together we fed 199 families — thank you, Lucketts!",
   "drivePhoto": "images/thankyou2025.jpg",
-
-  /* ---------- Community Reach Goals ---------- */
   "reachGoals": [
     { "value": 100, "message": "🎯 Halfway there!" },
     { "value": 150, "message": "💪 Almost there!" },

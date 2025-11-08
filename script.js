@@ -25,8 +25,10 @@ async function loadProgress() {
 
     // --- Check if the drive has ended --- //
     const now = new Date();
-    const driveEndDate = driveEnd ? new Date(driveEnd) : null;
-    if (driveEndDate && now > driveEndDate) {
+    const driveEnd = new Date(data.driveEnd);
+    const now = new Date();
+
+    if (driveEnd && now > driveEnd) {
       activatePostDriveMode(familiesFed, goal, data);
       return;
     }
