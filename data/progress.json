@@ -5,6 +5,7 @@
   "matchMessage": "🦃 Today Valor Mission Support LLC is matching every donation up to $1,000!🦃",
   "matchEnd": "2025-11-07T23:59:59",
   "reachGoals": [
+    { "value": 100, "message": "Half Way!" },
     { "value": 150, "message": "Almost there!" },
     { "value": 200, "message": "🎉 Goal reached! Principal Ganley dresses up as a TURKEY!" },
     { "value": 250, "message": "Stretch Goal 1 - Unlocked at 200" },
