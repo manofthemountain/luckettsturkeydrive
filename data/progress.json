@@ -1,9 +1,9 @@
 {
-  "familiesFed": 128,
+  "familiesFed": 199,
   "goal": 200,
-  "matchActive": true,
-  "matchMessage": "🦃 Today Valor Mission Support LLC is matching every donation up to $1,000!🦃",
-  "matchEnd": "2025-11-07T23:59:59",
+  "matchActive": false,
+  "matchMessage": "🦃 Today Loudoun Glass & Mirror is matching every donation up to $1,000!🦃",
+  "matchEnd": "2025-11-14T23:59:59",
   "reachGoals": [
     { "value": 100, "message": "Half Way!" },
     { "value": 150, "message": "Almost there!" },
