@@ -1,17 +1,17 @@
 {
-  "familiesFed": 199,
+  "familiesFed": 232,
   "goal": 200,
   "matchActive": false,
   "matchMessage": "Today Loudoun Glass & Mirror is matching every donation up to $1,000!",
   "matchEnd": "2025-11-14T23:59:59",
   "driveEnd": "2025-11-17T23:59:59",
-  "driveMessage": "Together we fed 199 families — thank you, Lucketts!",
+  "driveMessage": "Together we fed 232 families — Thank You, Lucketts!",
   "drivePhoto": "images/thankyou2025.jpg",
   "reachGoals": [
     { "value": 100, "message": "🎯 Halfway there!" },
     { "value": 150, "message": "💪 Almost there!" },
     { "value": 200, "message": "🎉 Goal reached! The Principal will dress up as a TURKEY!" },
-    { "value": 250, "message": "⭐ Stretch Goal 1 - Unlocked at 200 families" },
+    { "value": 250, "message": "⭐ Stretch Goal 1 - Extra Recess!" },
     { "value": 300, "message": "🌟 Stretch Goal 2 - Unlocked at 250 families" },
     { "value": 350, "message": "🏅 Stretch Goal 3 - Unlocked at 300 families" }
   ]
