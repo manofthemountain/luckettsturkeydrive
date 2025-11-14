@@ -1,5 +1,5 @@
 {
-  "familiesFed": 233,
+  "familiesFed": 268,
   "goal": 200,
   "matchActive": true,
   "matchMessage": "Today Loudoun Glass & Mirror is matching every donation up to $500!",
@@ -12,7 +12,7 @@
     { "value": 150, "message": "💪 Almost there!" },
     { "value": 200, "message": "🎉 Goal reached! The Principal will dress up as a TURKEY!" },
     { "value": 250, "message": "⭐ Stretch Goal 1 - Extra Recess!" },
-    { "value": 300, "message": "🌟 Stretch Goal 2 - Unlocked at 250 families" },
+    { "value": 300, "message": "🌟 Stretch Goal 2 - Pajama & Stuffie Day + Charlie Brown Thanksgiving Movie in class!" },
     { "value": 350, "message": "🏅 Stretch Goal 3 - Unlocked at 300 families" }
   ]
 }
