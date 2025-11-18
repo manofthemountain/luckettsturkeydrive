@@ -1,11 +1,11 @@
 {
-  "familiesFed": 377,
+  "familiesFed": 400,
   "goal": 200,
   "matchActive": true,
   "matchMessage": "Today Nucleus Security is matching every donation up to $500!",
   "matchEnd": "2025-11-17T18:59:59",
   "driveEnd": "2025-11-17T18:59:59",
-  "driveMessage": "Together we fed 377 families — Thank You, Lucketts!",
+  "driveMessage": "Together we fed 400 families — Thank You, Lucketts!",
   "drivePhoto": "assets/thankyou2025.jpg",
   "reachGoals": [
     { "value": 100, "message": "🎯 Halfway there!" },
