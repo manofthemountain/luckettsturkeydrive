@@ -286,40 +286,64 @@ function createSparkles() {
     setTimeout(() => sparkle.remove(), 2500);
   }
 }
+function celebrateGoalLong() {
+  const colors = ["#ffcc00", "#ff6666", "#66ccff", "#66ff99", "#ff9966"];
 
+  for (let i = 0; i < 180; i++) {
+    const confetti = document.createElement("div");
+    Object.assign(confetti.style, {
+      position: "fixed",
+      width: "8px",
+      height: "8px",
+      backgroundColor: colors[Math.floor(Math.random() * colors.length)],
+      top: "-20px",
+      left: Math.random() * 100 + "vw",
+      opacity: Math.random(),
+      transition: "top 6.5s ease-out, opacity 6.5s ease-out",
+      zIndex: 9999
+    });
+    document.body.appendChild(confetti);
+
+    // Start fall
+    setTimeout(() => {
+      confetti.style.top = "110vh";
+      confetti.style.opacity = 0;
+    }, 50 + Math.random() * 300);
+
+    // Remove after animation
+    setTimeout(() => confetti.remove(), 7500);
+  }
+}
 // ========================= POST-DRIVE MODE ========================= //
 function activatePostDriveMode(familiesFed, goal, data = {}) {
   const { driveMessage, drivePhoto } = data;
   const main = document.querySelector("main");
   if (!main) return;
 
-  const photoSection = drivePhoto
-    ? `<div class="thankyou-photo">
-         <img src="${drivePhoto}" alt="Turkey Drive Celebration">
-       </div>`
-    : "";
-
   const messageText =
     driveMessage ||
     `Because of your generosity, we fed <strong>${familiesFed}</strong> families this Thanksgiving.`;
 
+  const photoSection = drivePhoto
+    ? `<div class="thankyou-photo">
+         <img src="${drivePhoto}" alt="Turkey Drive Celebration" class="end-photo">
+       </div>`
+    : "";
+
   main.innerHTML = `
-    <section id="thankyou-mode">
-      <h2>🦃 Thank You, Lucketts! 🧡</h2>
-      <p>${messageText}</p>
+    <section id="thankyou-mode" style="text-align:center; padding: 20px;">
+      <h2 class="end-title">🦃 Thank You, Lucketts! 🧡</h2>
+      <p class="end-message">${messageText}</p>
       ${photoSection}
-      <div id="thankyou-thermo">
-        <div class="confetti-bg"></div>
-        <p class="tagline">Together, we made Thanksgiving brighter for our community.</p>
-      </div>
-      <a href="https://luckettselementarypta.givebacks.com/" target="_blank">
-        <button>View the 2025 Drive Results</button>
-      </a>
+      <p class="end-tagline">Together, we made Thanksgiving brighter for our community.</p>
+      <footer class="end-footer">
+        <p>🍂 See You in 2026! 🍂</p>
+      </footer>
     </section>
   `;
 
   document.body.classList.add("post-drive");
-  celebrateGoal();
+  celebrateGoalLong();
 }
 
 // ========================= INIT ========================= //

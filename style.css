@@ -27,15 +27,9 @@ footer {
   border-top: 4px solid #d46a00;
 }
 
-h1 {
-  margin: 0.2em 0;
-}
-h2 {
-  margin-top: 1.5em;
-}
-p {
-  margin: 0.5em 0;
-}
+h1 { margin: 0.2em 0; }
+h2 { margin-top: 1.5em; }
+p  { margin: 0.5em 0; }
 
 /* ---------- Buttons ---------- */
 button {
@@ -67,22 +61,18 @@ button:hover {
   transition: opacity 0.8s ease;
   animation: pulse 3s infinite;
 }
-#matching-banner.active {
-  opacity: 1;
-}
+#matching-banner.active { opacity: 1; }
+
 #countdown {
   font-size: 0.9em;
   margin: 0;
   font-weight: bold;
   color: #5a3d1e;
 }
+
 @keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 0 10px rgba(255, 204, 51, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(255, 204, 51, 0.9);
-  }
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 204, 51, 0.5); }
+  50%      { box-shadow: 0 0 20px rgba(255, 204, 51, 0.9); }
 }
 
 /* ---------- Thermometer ---------- */
@@ -102,6 +92,7 @@ button:hover {
   border-radius: 30px;
   overflow: hidden;
 }
+
 #thermo-outline::after {
   content: attr(data-maxgoal);
   position: absolute;
@@ -124,9 +115,7 @@ button:hover {
   background-size: 100% 300%;
   transition: height 1s ease-in-out, background-position 1s ease-in-out;
 }
-#thermo-fill.animate {
-  background-position: 0% 100%;
-}
+#thermo-fill.animate { background-position: 0% 100%; }
 
 #thermo-bulb {
   position: absolute;
@@ -149,6 +138,7 @@ button:hover {
   height: 100%;
   pointer-events: none;
 }
+
 .thermo-tick {
   position: absolute;
   right: 0;
@@ -190,15 +180,18 @@ button:hover {
   max-width: 500px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
+
 #reach-goals h3 {
   text-align: center;
   margin-bottom: 0.5em;
   color: #5a3d1e;
 }
+
 #goal-list {
   list-style: none;
   padding: 0;
 }
+
 #goal-list li {
   display: flex;
   align-items: center;
@@ -206,11 +199,13 @@ button:hover {
   font-size: 1em;
   transition: all 0.4s ease;
 }
+
 #goal-list input[type="checkbox"] {
   transform: scale(1.2);
   margin-right: 8px;
   accent-color: #f0b429;
 }
+
 .goal-reached label {
   font-weight: bold;
   color: #2e7d32;
@@ -226,19 +221,11 @@ button:hover {
   opacity: 0.8;
   animation: sparkleAnim 2s ease-out infinite;
 }
+
 @keyframes sparkleAnim {
-  0% {
-    transform: scale(0) translateY(0);
-    opacity: 0.8;
-  }
-  50% {
-    transform: scale(1.5) translateY(-10px);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(0) translateY(-20px);
-    opacity: 0;
-  }
+  0%   { transform: scale(0) translateY(0); opacity: 0.8; }
+  50%  { transform: scale(1.5) translateY(-10px); opacity: 1; }
+  100% { transform: scale(0) translateY(-20px); opacity: 0; }
 }
 
 .stretch-badge {
@@ -255,7 +242,6 @@ button:hover {
 
 /* ---------- Stretch Goal Toasts ---------- */
 .stretch-toast {
-  position: relative;
   background: #ffeb99;
   color: #5a3d1e;
   font-weight: bold;
@@ -287,25 +273,16 @@ button:hover {
 
 /* ---------- Responsive ---------- */
 @media (max-width: 600px) {
-  #thermo-outline {
-    height: 200px;
-    width: 50px;
-  }
-  #thermo-bulb {
-    width: 80px;
-    height: 80px;
-    bottom: -35px;
-  }
-  button {
-    padding: 10px 20px;
-    font-size: 1em;
-  }
-  #thermo-scale {
-    right: -38px;
-  }
+  #thermo-outline { height: 200px; width: 50px; }
+  #thermo-bulb   { width: 80px; height: 80px; bottom: -35px; }
+  #thermo-scale  { right: -38px; }
+  button { padding: 10px 20px; font-size: 1em; }
 }
 
-/* ---------- Post-Drive Mode ---------- */
+/* =========================================================
+   POST-DRIVE THANK YOU MODE
+   ========================================================= */
+
 body.post-drive {
   background: #fff3cd;
   color: #5a3d1e;
@@ -316,89 +293,38 @@ body.post-drive {
   text-align: center;
 }
 
-#thankyou-mode h2 {
-  font-size: 2em;
+.end-title {
+  font-size: 1.9em;
   color: #d46a00;
-  margin-bottom: 0.5em;
+  margin-bottom: 10px;
 }
 
-#thankyou-mode p {
+.end-message {
   font-size: 1.2em;
-  margin: 0.5em auto 1em;
   max-width: 500px;
+  margin: 0 auto 20px;
+  line-height: 1.45;
 }
 
-#thankyou-mode button {
-  background-color: #f28c28;
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  border-radius: 25px;
-  padding: 12px 28px;
-  font-size: 1.1em;
-  cursor: pointer;
-  transition: background 0.3s ease;
+.end-photo img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 12px;
+  display: block;
+  margin: 20px auto;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-#thankyou-mode button:hover {
-  background-color: #d46a00;
-}
-
-#thankyou-mode .tagline {
-  font-style: italic;
-  font-size: 1.1em;
-  color: #7b5a2e;
-  margin-top: 1em;
-}
-
-.confetti-bg {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    45deg,
-    rgba(255,215,0,0.1),
-    rgba(255,215,0,0.1) 10px,
-    rgba(255,165,0,0.1) 10px,
-    rgba(255,165,0,0.1) 20px
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ---------- Post-Drive Photo & Message ---------- */
-#thankyou-mode {
-  padding: 3em 1em;
-  text-align: center;
-}
-
-#thankyou-mode h2 {
-  font-size: 2em;
-  color: #d46a00;
-  margin-bottom: 0.5em;
-}
-
-#thankyou-mode p {
-  font-size: 1.2em;
-  margin: 0.5em auto 1em;
-  max-width: 500px;
+.end-tagline {
+  margin-top: 25px;
+  font-size: 1.15em;
   color: #5a3d1e;
+  font-weight: 500;
 }
 
-.thankyou-photo {
-  margin: 1.5em auto;
-  display: flex;
-  justify-content: center;
-}
-
-.thankyou-photo img {
-  max-width: 90%;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-#thankyou-mode .tagline {
-  font-style: italic;
-  font-size: 1.1em;
-  color: #7b5a2e;
-  margin-top: 1em;
+.end-footer {
+  margin-top: 35px;
+  font-size: 1.25em;
+  color: #d46a00;
+  font-weight: bold;
 }
