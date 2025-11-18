@@ -306,15 +306,18 @@ body.post-drive {
   line-height: 1.45;
 }
 
-.end-photo img {
+/* ------------ MOBILE-SAFE THANK YOU IMAGE ------------- */
+#thankyou-mode img {
   width: 100%;
   max-width: 300px;
-  border-radius: 12px;
+  height: auto;
   display: block;
   margin: 20px auto;
+  border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
+/* Tagline */
 .end-tagline {
   margin-top: 25px;
   font-size: 1.15em;
@@ -322,6 +325,7 @@ body.post-drive {
   font-weight: 500;
 }
 
+/* Footer */
 .end-footer {
   margin-top: 35px;
   font-size: 1.25em;
