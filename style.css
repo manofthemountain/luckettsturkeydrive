@@ -331,3 +331,34 @@ body.post-drive {
   color: #d46a00;
   font-weight: bold;
 }
+/* ---------- Campaign Message / Annual Impact ---------- */
+.campaign-message {
+  max-width: 720px;
+  margin: 1.5em auto 0.75em;
+  padding: 1em 1.25em;
+  background: #fff3cd;
+  border: 2px solid #f0b429;
+  border-radius: 12px;
+  line-height: 1.5;
+}
+
+#drive-message { font-size: 1.08em; font-weight: 600; }
+.campaign-dates { font-size: 0.95em; color: #76552f; }
+
+.previous-impact {
+  max-width: 650px;
+  margin: 0.75em auto 1.25em;
+  padding: 0.65em 1em;
+  font-weight: bold;
+  color: #76552f;
+}
+
+.final-total {
+  font-size: 1.35em;
+  color: #d46a00;
+}
+
+body.pre-launch .campaign-message {
+  margin-top: 2.5em;
+  padding: 1.5em;
+}

@@ -1,103 +1,173 @@
-console.log("🦃 Turkey Drive Tracker script loaded!");
+console.log("🦃 Turkey Drive Tracker loaded!");
 
-// ========================= MAIN LOADER ========================= //
-async function loadProgress() {
-  const progressUrl = "./data/progress.json";
-  const repoOwner = "manofthemountain";
-  const repoName = "luckettsturkeydrive";
-  const filePath = "data/progress.json";
+const CONFIG_URL = "./data/campaign.json";
+const REPO_OWNER = "manofthemountain";
+const REPO_NAME = "luckettsturkeydrive";
+const CONFIG_PATH = "data/campaign.json";
 
+async function loadCampaign() {
   try {
-    // --- Load JSON data --- //
-    const response = await fetch(progressUrl);
-    if (!response.ok) throw new Error("Progress file not found");
+    const response = await fetch(CONFIG_URL, { cache: "no-store" });
+    if (!response.ok) throw new Error("Campaign configuration not found");
     const data = await response.json();
 
-    const {
-      familiesFed = 0,
-      goal = 200,
-      reachGoals = [],
-      matchActive = false,
-      matchMessage = "",
-      matchEnd = "",
-      driveEnd = "",
-      driveMessage = "",
-      drivePhoto = ""
-    } = data;
+    applyCampaignBranding(data);
 
     const now = new Date();
-    const driveEndDate = driveEnd ? new Date(driveEnd) : null;
+    const launch = new Date(data.launchDate);
+    const end = new Date(data.endDate);
 
-    // --- Check if the drive has ended --- //
-    if (driveEndDate && now > driveEndDate) {
-      activatePostDriveMode(familiesFed, goal, data);
+    if (data.endDate && now > end) {
+      activatePostDriveMode(data);
       return;
     }
 
-    // --- Calculate main + stretch goals --- //
-    const maxGoal = reachGoals.length
-      ? Math.max(goal, ...reachGoals.map((g) => g.value))
-      : goal;
-    const percent = Math.min((familiesFed / maxGoal) * 100, 100);
-
-    const thermoOutline = document.getElementById("thermo-outline");
-    if (thermoOutline) {
-      thermoOutline.setAttribute("data-maxgoal", maxGoal);
+    if (data.launchDate && now < launch) {
+      activatePreLaunchMode(data, launch);
+      return;
     }
 
-    /* ----------------- MATCHING BANNER ----------------- */
-    handleMatchingBanner(matchActive, matchMessage, matchEnd);
-
-    /* ----------------- THERMOMETER FILL ----------------- */
-    const thermo = document.getElementById("thermo-fill");
-    if (thermo) {
-      thermo.style.height = `${percent}%`;
-      thermo.classList.add("animate");
-
-      // Color transitions by milestone
-      if (familiesFed < goal * 0.5) {
-        thermo.style.background = "linear-gradient(to top, #cc0000, #f28c28)";
-      } else if (familiesFed < goal) {
-        thermo.style.background = "linear-gradient(to top, #f28c28, #ffcc33)";
-      } else {
-        thermo.style.background = "linear-gradient(to top, #ffd700, #ffec8b)";
-        thermo.style.boxShadow = "0 0 20px 5px rgba(255,215,0,0.6)";
-        if (!thermo.classList.contains("stretch-celebrate")) {
-          thermo.classList.add("stretch-celebrate");
-          createSparkles();
-        }
-      }
-    }
-
-    /* ----------------- HEADER BADGE ----------------- */
-    const goalHeader = document.querySelector("#tracker h2");
-    if (goalHeader && familiesFed > goal && !goalHeader.querySelector(".stretch-badge")) {
-      const badge = document.createElement("span");
-      badge.className = "stretch-badge";
-      badge.textContent = "🌟 Stretch Goals Active!";
-      goalHeader.appendChild(badge);
-    }
-
-    /* ----------------- PROGRESS TEXT ----------------- */
-    updateProgressText(familiesFed, goal);
-
-    /* ----------------- SCALE MARKERS ----------------- */
-    renderThermoScale(maxGoal);
-
-    /* ----------------- COMMUNITY REACH GOALS ----------------- */
-    renderReachGoals(reachGoals, familiesFed);
-
-    /* ----------------- LAST UPDATED ----------------- */
-    updateLastModified(repoOwner, repoName, filePath);
-
-    /* ----------------- CELEBRATION ----------------- */
-    if (familiesFed >= goal) celebrateGoal();
-
+    activateLiveDriveMode(data);
   } catch (err) {
-    console.error("Error loading progress:", err);
+    console.error("Error loading campaign:", err);
     const text = document.getElementById("progress-text");
-    if (text) text.textContent = "Unable to load progress.";
+    if (text) text.textContent = "Unable to load Turkey Drive information.";
   }
+}
+
+function applyCampaignBranding(data) {
+  const year = data.year || new Date().getFullYear();
+  const org = data.organization || "Lucketts Elementary PTA";
+  const name = data.campaignName || "Turkey Drive";
+  const title = `${org} ${name} ${year}`;
+
+  document.title = title;
+  setText("site-title", title);
+  setText("beneficiary", data.beneficiary ? `Benefiting the ${data.beneficiary}` : "");
+  setText("footer-tags", `#Lucketts #ThankfulTogether #TurkeyDrive${year}`);
+
+  const metaDescription = `Help make Thanksgiving brighter for local families! Every $${data.dollarsPerFamily || 10} donation helps feed a family.`;
+  const description = document.querySelector('meta[name="description"]');
+  if (description) description.content = metaDescription;
+}
+
+function activateLiveDriveMode(data) {
+  const familiesFed = Number(data.familiesFed || 0);
+  const goal = Number(data.goal || 200);
+  const reachGoals = Array.isArray(data.reachGoals) ? data.reachGoals : [];
+  const dollars = Number(data.dollarsPerFamily || 10);
+
+  setText("drive-message", data.driveMessage || "");
+  setText("campaign-dates", `${formatDate(data.launchDate)} – ${formatDate(data.endDate)}`);
+  setText("donation-copy", `💛 Every $${dollars} donation helps feed a local family.`);
+  setText("donate-button", `Donate $${dollars}`);
+  setText("tracker-heading", `Goal: ${goal} Families Fed`);
+
+  const link = document.getElementById("donate-link");
+  if (link && data.donationUrl) link.href = data.donationUrl;
+
+  renderPreviousImpact(data.previousYearImpact);
+  handleMatchingBanner(data.matching?.active, data.matching?.message, data.matching?.endDate);
+
+  const maxGoal = reachGoals.length ? Math.max(goal, ...reachGoals.map(g => Number(g.value || 0))) : goal;
+  const percent = Math.min((familiesFed / maxGoal) * 100, 100);
+  const outline = document.getElementById("thermo-outline");
+  if (outline) outline.setAttribute("data-maxgoal", maxGoal);
+
+  const thermo = document.getElementById("thermo-fill");
+  if (thermo) {
+    thermo.style.height = `${percent}%`;
+    thermo.classList.add("animate");
+    if (familiesFed < goal * 0.5) thermo.style.background = "linear-gradient(to top, #cc0000, #f28c28)";
+    else if (familiesFed < goal) thermo.style.background = "linear-gradient(to top, #f28c28, #ffcc33)";
+    else {
+      thermo.style.background = "linear-gradient(to top, #ffd700, #ffec8b)";
+      thermo.style.boxShadow = "0 0 20px 5px rgba(255,215,0,0.6)";
+      createSparkles();
+    }
+  }
+
+  const goalHeader = document.querySelector("#tracker h2");
+  if (goalHeader && familiesFed > goal && !goalHeader.querySelector(".stretch-badge")) {
+    const badge = document.createElement("span");
+    badge.className = "stretch-badge";
+    badge.textContent = "🌟 Stretch Goals Active!";
+    goalHeader.appendChild(badge);
+  }
+
+  updateProgressText(familiesFed, goal);
+  renderThermoScale(maxGoal);
+  renderReachGoals(reachGoals, familiesFed);
+  updateLastModified(REPO_OWNER, REPO_NAME, CONFIG_PATH);
+  if (familiesFed >= goal) celebrateGoal();
+}
+
+function activatePreLaunchMode(data, launch) {
+  document.body.classList.add("pre-launch");
+  setText("drive-message", data.preLaunchMessage || `${data.campaignName || "Turkey Drive"} begins ${formatDate(data.launchDate)}.`);
+  setText("campaign-dates", `Campaign: ${formatDate(data.launchDate)} – ${formatDate(data.endDate)}`);
+  renderPreviousImpact(data.previousYearImpact);
+
+  const donate = document.getElementById("donate");
+  const tracker = document.getElementById("tracker");
+  const goals = document.getElementById("reach-goals");
+  if (donate) donate.style.display = "none";
+  if (tracker) tracker.style.display = "none";
+  if (goals) goals.style.display = "none";
+  handleMatchingBanner(false, "", "");
+}
+
+function activatePostDriveMode(data) {
+  const main = document.querySelector("main");
+  if (!main) return;
+  const familiesFed = Number(data.familiesFed || 0);
+  const nextYear = Number(data.year || new Date().getFullYear()) + 1;
+  const message = data.postDriveMessage || `Because of your generosity, we fed ${familiesFed} families this Thanksgiving.`;
+  const photo = data.postDrivePhoto
+    ? `<div class="thankyou-photo"><img src="${escapeHtml(data.postDrivePhoto)}" alt="Turkey Drive celebration" class="end-photo"></div>`
+    : "";
+
+  main.innerHTML = `
+    <section id="thankyou-mode">
+      <h2 class="end-title">🦃 Thank You, Lucketts! 🧡</h2>
+      <p class="end-message">${escapeHtml(message)}</p>
+      <p class="final-total"><strong>${familiesFed}</strong> families supported</p>
+      ${photo}
+      <p class="end-tagline">Together, we made Thanksgiving brighter for our community.</p>
+      <div class="end-footer"><p>🍂 See You in ${nextYear}! 🍂</p></div>
+    </section>`;
+
+  document.body.classList.add("post-drive");
+  handleMatchingBanner(false, "", "");
+  celebrateGoalLong();
+}
+
+function renderPreviousImpact(impact) {
+  const section = document.getElementById("previous-impact");
+  const text = document.getElementById("previous-impact-text");
+  if (!section || !text || !impact?.show) return;
+  text.textContent = `Last year, Lucketts helped provide Thanksgiving turkeys to ${impact.familiesFed} families. 🧡`;
+  section.style.display = "block";
+}
+
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value ?? "";
+}
+
+function formatDate(value) {
+  if (!value) return "";
+  const d = new Date(value);
+  return d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 // ========================= MATCHING BANNER ========================= //
@@ -314,37 +384,6 @@ function celebrateGoalLong() {
     setTimeout(() => confetti.remove(), 7500);
   }
 }
-// ========================= POST-DRIVE MODE ========================= //
-function activatePostDriveMode(familiesFed, goal, data = {}) {
-  const { driveMessage, drivePhoto } = data;
-  const main = document.querySelector("main");
-  if (!main) return;
-
-  const messageText =
-    driveMessage ||
-    `Because of your generosity, we fed <strong>${familiesFed}</strong> families this Thanksgiving.`;
-
-  const photoSection = drivePhoto
-    ? `<div class="thankyou-photo">
-         <img src="${drivePhoto}" alt="Turkey Drive Celebration" class="end-photo">
-       </div>`
-    : "";
-
-  main.innerHTML = `
-    <section id="thankyou-mode" style="text-align:center; padding: 20px;">
-      <h2 class="end-title">🦃 Thank You, Lucketts! 🧡</h2>
-      <p class="end-message">${messageText}</p>
-      ${photoSection}
-      <p class="end-tagline">Together, we made Thanksgiving brighter for our community.</p>
-      <footer class="end-footer">
-        <p>🍂 See You in 2026! 🍂</p>
-      </footer>
-    </section>
-  `;
-
-  document.body.classList.add("post-drive");
-  celebrateGoalLong();
-}
 
 // ========================= INIT ========================= //
-document.addEventListener("DOMContentLoaded", loadProgress);
+document.addEventListener("DOMContentLoaded", loadCampaign);

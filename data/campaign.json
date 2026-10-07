@@ -1,0 +1,34 @@
+{
+  "year": 2026,
+  "organization": "Lucketts Elementary PTA",
+  "campaignName": "Turkey Drive",
+  "beneficiary": "Lucketts Community Food Pantry",
+  "launchDate": "2026-10-19T00:00:00-04:00",
+  "endDate": "2026-11-13T23:59:59-05:00",
+  "dollarsPerFamily": 10,
+  "goal": 200,
+  "familiesFed": 0,
+  "donationUrl": "https://luckettselementarypta.givebacks.com/shop/items/da6211884f",
+  "driveMessage": "🦃 The 2026 Lucketts Turkey Drive kicks off Monday, October 19! Join our community as we work together to provide Thanksgiving turkeys to local families in need. Just $10 feeds one family, and our goal is to help at least 200 families this Thanksgiving!",
+  "preLaunchMessage": "The 2026 Lucketts Turkey Drive kicks off Monday, October 19!",
+  "postDriveMessage": "Thank you, Lucketts! Together we made Thanksgiving brighter for local families.",
+  "postDrivePhoto": "",
+  "previousYearImpact": {
+    "show": true,
+    "year": 2025,
+    "familiesFed": 413
+  },
+  "matching": {
+    "active": false,
+    "message": "",
+    "endDate": ""
+  },
+  "reachGoals": [
+    { "value": 100, "message": "🎯 Halfway there!" },
+    { "value": 150, "message": "💪 Almost there!" },
+    { "value": 200, "message": "🎉 Goal reached! The Principal will dress up as a TURKEY!" },
+    { "value": 250, "message": "⭐ Stretch Goal 1 - Extra Recess!" },
+    { "value": 300, "message": "🌟 Stretch Goal 2 - Pajama & Stuffie Day + Charlie Brown Thanksgiving Movie in class!" },
+    { "value": 350, "message": "🏅 Stretch Goal 3 - Unlocked at 300 families" }
+  ]
+}

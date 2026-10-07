@@ -3,61 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lucketts Elementary PTA Turkey Drive 2026</title>
   <link rel="stylesheet" href="style.css" />
-
-    <!-- Primary Meta Tags -->
-  <title>Lucketts Elementary PTA Turkey Drive 2026</title>
-  <meta name="title" content="Lucketts Elementary PTA Turkey Drive 2026">
-  <meta name="description" content="Help make Thanksgiving brighter for local families in Lucketts! Every $10 donation helps feed a family through the Lucketts Community Food Pantry.">
-
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://luckettsturkeydrive.org/">
-  <meta property="og:title" content="Lucketts Elementary PTA Turkey Drive 2026">
-  <meta property="og:description" content="Help make Thanksgiving brighter for local families! Every $10 donation helps feed a family in Lucketts.">
-  <meta property="og:image" content="https://luckettsturkeydrive.org/images/turkey-thermometer-preview.png">
-  <meta property="og:image:alt" content="Turkey Drive progress thermometer showing families fed">
-
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://luckettsturkeydrive.org/">
-  <meta property="twitter:title" content="Lucketts Elementary PTA Turkey Drive 2026">
-  <meta property="twitter:description" content="Every $10 donation helps feed a local family in Lucketts! Join the community effort.">
-  <meta property="twitter:image" content="https://luckettsturkeydrive.org/images/turkey-thermometer-preview.png">
-  <meta property="twitter:image:alt" content="Turkey Drive progress thermometer showing families fed">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="images/favicon.png">
-
+  <title>Lucketts Elementary PTA Turkey Drive</title>
+  <meta name="description" content="Help make Thanksgiving brighter for local families through the Lucketts Elementary PTA Turkey Drive." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://luckettsturkeydrive.org/" />
+  <meta property="og:title" content="Lucketts Elementary PTA Turkey Drive" />
+  <meta property="og:description" content="Help make Thanksgiving brighter for local families through the Lucketts Elementary PTA Turkey Drive." />
 </head>
-
 <body>
   <header role="banner">
-    <!-- Matching Banner -->
     <div id="matching-banner" style="display:none;" aria-live="polite">
       <p id="matching-text"></p>
-      <p id="countdown" style="font-size:0.9em; margin:0;"></p>
+      <p id="countdown"></p>
     </div>
-
-    <h1>Lucketts Elementary PTA Turkey Drive 2026</h1>
-    <p>Benefiting the Lucketts Community Food Pantry</p>
+    <h1 id="site-title">Lucketts Elementary PTA Turkey Drive</h1>
+    <p id="beneficiary"></p>
   </header>
 
   <main role="main">
-    <!-- Donate Section -->
+    <section id="campaign-message" class="campaign-message" aria-live="polite">
+      <p id="drive-message"></p>
+      <p id="campaign-dates" class="campaign-dates"></p>
+    </section>
+
+    <section id="previous-impact" class="previous-impact" style="display:none;">
+      <p id="previous-impact-text"></p>
+    </section>
+
     <section id="donate" aria-labelledby="donate-heading">
       <h2 id="donate-heading" class="visually-hidden">Donate Section</h2>
-      <p>💛 Every $10 donation helps feed a local family.</p>
-      <a href="https://luckettselementarypta.givebacks.com/shop/items/da6211884f" target="_blank" rel="noopener noreferrer">
-        <button aria-label="Donate ten dollars to support a local family">Donate $10</button>
+      <p id="donation-copy"></p>
+      <a id="donate-link" href="#" target="_blank" rel="noopener noreferrer">
+        <button id="donate-button">Donate</button>
       </a>
     </section>
 
-    <!-- Thermometer Tracker -->
     <section id="tracker" aria-labelledby="tracker-heading">
-      <h2 id="tracker-heading">Goal: 200 Families Fed</h2>
-
+      <h2 id="tracker-heading">Goal</h2>
       <div id="thermo-wrapper" role="img" aria-label="Donation progress thermometer showing families fed">
         <div id="thermo-outline">
           <div id="thermo-fill" aria-hidden="true"></div>
@@ -65,24 +48,19 @@
           <div id="thermo-scale" aria-hidden="true"></div>
         </div>
       </div>
-
       <p id="progress-text" aria-live="polite">Loading...</p>
-      <p id="last-updated">Loading date...</p>
+      <p id="last-updated"></p>
     </section>
 
-    <!-- Reach Goals Section -->
     <section id="reach-goals" aria-labelledby="goals-heading">
       <h3 id="goals-heading">🎯 Community Reach Goals</h3>
-      <ul id="goal-list" aria-live="polite">
-        <!-- Populated dynamically -->
-      </ul>
+      <ul id="goal-list" aria-live="polite"></ul>
     </section>
   </main>
 
   <footer role="contentinfo">
-    <p>#Lucketts #ThankfulTogether #TurkeyDrive2026</p>
+    <p id="footer-tags">#Lucketts #ThankfulTogether</p>
   </footer>
-
   <script src="script.js" defer></script>
 </body>
 </html>
