@@ -1,12 +1,12 @@
 {
-  "familiesFed": 413,
+  "familiesFed": 0,
   "goal": 200,
   "matchActive": false,
-  "matchMessage": "Today Nucleus Security is matching every donation up to $500!",
-  "matchEnd": "2025-11-17T18:59:59",
+  "matchMessage": "",
+  "matchEnd": "",
   "driveEnd": "2026-11-13T18:59:59",
-  "driveMessage": "Together we fed 413 families — Thank You, Lucketts!",
-  "drivePhoto": "assets/thankyou2025.jpg",
+  "driveMessage": "🦃 The 2026 Lucketts Turkey Drive kicks off Monday, October 19!",
+  "drivePhoto": "",
   "reachGoals": [
     { "value": 100, "message": "🎯 Halfway there!" },
     { "value": 150, "message": "💪 Almost there!" },
