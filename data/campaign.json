@@ -27,8 +27,8 @@
     { "value": 100, "message": "🎯 Halfway there!" },
     { "value": 150, "message": "💪 Almost there!" },
     { "value": 200, "message": "🎉 Goal reached! The Principal will dress up as a TURKEY!" },
-    { "value": 250, "message": "⭐ Stretch Goal 1 - Extra Recess!" },
-    { "value": 300, "message": "🌟 Stretch Goal 2 - Pajama & Stuffie Day + Charlie Brown Thanksgiving Movie in class!" },
+    { "value": 250, "message": "⭐ Stretch Goal 1 - Unlocked at 200 families" },
+    { "value": 300, "message": "🌟 Stretch Goal 2 - Unlocked at 250 families" },
     { "value": 350, "message": "🏅 Stretch Goal 3 - Unlocked at 300 families" }
   ]
 }
