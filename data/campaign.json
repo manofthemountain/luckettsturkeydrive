@@ -6,7 +6,7 @@
   "launchDate": "2026-10-19T00:00:00-04:00",
   "endDate": "2026-11-13T23:59:59-05:00",
   "dollarsPerFamily": 10,
-  "goal": 200,
+  "goal": 50,
   "familiesFed": 40,
   "donationUrl": "https://www.givebacks.com/causes/luckettselementarypta/shop/items/5c179b82717080",
   "driveMessage": "🦃 The 2026 Lucketts Turkey Drive is officially underway! We’re coming together once again to help our neighbors in need this Thanksgiving! Our goal is to provide 200 turkeys to local families through the Lucketts Community Food Pantry.💛 ",
@@ -24,10 +24,9 @@
     "endDate": ""
   },
   "reachGoals": [
-    { "value": 100, "message": "🎯 Halfway there!" },
-    { "value": 150, "message": "💪 Almost there!" },
-    { "value": 200, "message": "🎉 Goal reached! The Principal will dress up as a TURKEY!" },
-    { "value": 250, "message": "⭐ Stretch Goal 1 - Unlocked at 200 families" },
+    { "value": 50, "message": "🎉 Goal reached! The Principal will dress up as a TURKEY!" },
+    { "value": 125, "message": "🍿 Popcorn at Lunch!" },
+    { "value": 200, "message": "⭐ Stretch Goal 1 - Teacher Suprise" },
     { "value": 300, "message": "🌟 Stretch Goal 2 - Unlocked at 250 families" },
     { "value": 350, "message": "🏅 Stretch Goal 3 - Unlocked at 300 families" }
   ]
