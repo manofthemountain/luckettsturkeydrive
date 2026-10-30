@@ -213,8 +213,9 @@ function updateProgressText(familiesFed, goal) {
 
   let msg = `${familiesFed} / ${goal} Families Fed`;
   if (familiesFed >= goal) msg += " 🎉 GOAL REACHED - Thank You, Lucketts!!";
-  else if (familiesFed >= 100) msg += " 🦃 Incredible progress!";
-  else if (familiesFed >= 50) msg += " 🥳 Halfway there!";
+  else if (familiesFed >= 75) msg += " 🦃 Incredible progress!";
+  else if (familiesFed >= 100) msg += " 🥳 Halfway there!";
+  else if (familiesFed >= 150) msg += " 🦃 Almost there!";
   text.textContent = msg;
 }
 
