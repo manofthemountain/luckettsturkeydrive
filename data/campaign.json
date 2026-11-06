@@ -24,10 +24,10 @@
     "endDate": ""
   },
   "reachGoals": [
-    { "value": 50, "message": "🎉 Goal reached! The Principal will dress up as a TURKEY!" },
+    { "value": 50, "message": "🎉 Milestone reached! The Principal will dress up as a TURKEY!" },
     { "value": 125, "message": "🍿 Popcorn at Lunch!" },
-    { "value": 200, "message": "⭐ Stretch Goal 1 - Teacher Suprise" },
-    { "value": 300, "message": "🌟 Stretch Goal 2 - Unlocked at 250 families" },
-    { "value": 350, "message": "🏅 Stretch Goal 3 - Unlocked at 300 families" }
+    { "value": 200, "message": "⭐ Teacher Suprise" },
+    { "value": 300, "message": "🌟 Stretch Goal - Unlocked at 250 families" },
+    { "value": 400, "message": "🏅 Stretch Goal - Unlocked at 300 families" }
   ]
 }
