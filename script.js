@@ -52,8 +52,8 @@ function applyCampaignBranding(data) {
 }
 
 function activateLiveDriveMode(data) {
-  const familiesFed = Number(data.familiesFed || 0);
-  const goal = Number(data.goal || 200);
+  const familiesFed = Math.max(0, Number(data.familiesFed) || 0);
+  const goal = Math.max(1, Number(data.goal) || 200);
   const reachGoals = Array.isArray(data.reachGoals) ? data.reachGoals : [];
   const dollars = Number(data.dollarsPerFamily || 10);
 
@@ -69,22 +69,17 @@ function activateLiveDriveMode(data) {
   renderPreviousImpact(data.previousYearImpact);
   handleMatchingBanner(data.matching?.active, data.matching?.message, data.matching?.endDate);
 
-  const maxGoal = reachGoals.length ? Math.max(goal, ...reachGoals.map(g => Number(g.value || 0))) : goal;
-  const percent = Math.min((familiesFed / maxGoal) * 100, 100);
-  const outline = document.getElementById("thermo-outline");
-  if (outline) outline.setAttribute("data-maxgoal", maxGoal);
-
+  // Measure the main thermometer against the published campaign goal,
+  // not the highest stretch milestone. It stays full once the goal is reached.
+  const percent = Math.max(0, Math.min((familiesFed / goal) * 100, 100));
   const thermo = document.getElementById("thermo-fill");
-  if (thermo) {
-    thermo.style.height = `${percent}%`;
-    thermo.classList.add("animate");
-    if (familiesFed < goal * 0.5) thermo.style.background = "linear-gradient(to top, #cc0000, #f28c28)";
-    else if (familiesFed < goal) thermo.style.background = "linear-gradient(to top, #f28c28, #ffcc33)";
-    else {
-      thermo.style.background = "linear-gradient(to top, #ffd700, #ffec8b)";
-      thermo.style.boxShadow = "0 0 20px 5px rgba(255,215,0,0.6)";
-      createSparkles();
-    }
+  if (thermo) thermo.style.height = `${percent}%`;
+
+  const progress = document.getElementById("thermo-wrapper");
+  if (progress) {
+    progress.setAttribute("aria-valuemax", goal);
+    progress.setAttribute("aria-valuenow", Math.min(familiesFed, goal));
+    progress.setAttribute("aria-valuetext", `${familiesFed} of ${goal} families supported`);
   }
 
   const goalHeader = document.querySelector("#tracker h2");
@@ -96,7 +91,7 @@ function activateLiveDriveMode(data) {
   }
 
   updateProgressText(familiesFed, goal);
-  renderThermoScale(maxGoal);
+  renderThermoScale(goal);
   renderReachGoals(reachGoals, familiesFed);
   updateLastModified(REPO_OWNER, REPO_NAME, CONFIG_PATH);
   if (familiesFed >= goal) celebrateGoal();
@@ -158,7 +153,13 @@ function setText(id, value) {
 function formatDate(value) {
   if (!value) return "";
   const d = new Date(value);
-  return d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+  if (Number.isNaN(d.getTime())) return "";
+  // Campaign dates are based in Lucketts, VA. Fix the display timezone so
+  // the November 13 deadline doesn't render as November 14 elsewhere.
+  return d.toLocaleDateString("en-US", {
+    month: "long", day: "numeric", year: "numeric",
+    timeZone: "America/New_York"
+  });
 }
 
 function escapeHtml(value) {
@@ -206,35 +207,48 @@ function handleMatchingBanner(active, message, endTime) {
   } else hideBanner();
 }
 
-// ========================= PROGRESS TEXT ========================= //
+// ========================= CAMPAIGN PROGRESS ========================= //
 function updateProgressText(familiesFed, goal) {
-  const text = document.getElementById("progress-text");
-  if (!text) return;
+  const safeGoal = Math.max(1, Number(goal) || 1);
+  const safeTotal = Math.max(0, Number(familiesFed) || 0);
+  const percentage = Math.round((safeTotal / safeGoal) * 100);
+  const remaining = Math.max(0, safeGoal - safeTotal);
 
-  let msg = `${familiesFed} / ${goal} Families Fed`;
-  if (familiesFed >= goal) msg += " 🎉 GOAL REACHED - Thank You, Lucketts!!";
-  else if (familiesFed >= 75) msg += " 🦃 Incredible progress!";
-  else if (familiesFed >= 100) msg += " 🥳 Halfway there!";
-  else if (familiesFed >= 150) msg += " 🦃 Almost there!";
-  text.textContent = msg;
+  setText("families-count", safeTotal.toLocaleString("en-US"));
+  setText("families-goal", safeGoal.toLocaleString("en-US"));
+  setText("goal-percentage", `${percentage}%`);
+  setText("families-remaining", remaining > 0
+    ? `${remaining.toLocaleString("en-US")} ${remaining === 1 ? "family" : "families"} to go!`
+    : safeTotal > safeGoal
+      ? `${(safeTotal - safeGoal).toLocaleString("en-US")} families beyond our goal!`
+      : "We reached our goal!");
+
+  let message;
+  if (safeTotal >= safeGoal) message = "🎉 Thank you, Lucketts! Let's keep the giving going.";
+  else if (percentage >= 75) message = "🦃 Almost there! Every donation makes a difference.";
+  else if (percentage >= 50) message = "🧡 More than halfway! Keep the momentum going.";
+  else if (safeTotal > 0) message = "🧡 We're on our way. Thank you for helping local families.";
+  else message = "🦃 Help us get started—every turkey counts!";
+  setText("progress-text", message);
 }
 
 // ========================= THERMOMETER SCALE ========================= //
-function renderThermoScale(maxGoal) {
+function renderThermoScale(goal) {
   const scale = document.getElementById("thermo-scale");
   if (!scale) return;
+  scale.replaceChildren();
+  const safeGoal = Math.max(1, Number(goal) || 1);
 
-  const step = Math.ceil(maxGoal / 4 / 10) * 10;
-  const milestones = [0, step, step * 2, step * 3, maxGoal];
-  scale.innerHTML = "";
-
-  milestones.forEach((val) => {
+  // Labels and fill use exactly the same 0–100% coordinate system.
+  for (let tickIndex = 0; tickIndex <= 4; tickIndex++) {
     const tick = document.createElement("div");
-    tick.className = "thermo-tick";
-    tick.style.bottom = `${Math.min((val / maxGoal) * 100, 100)}%`;
-    tick.innerHTML = `<span>${val}</span>`;
+    tick.className = `thermo-tick${tickIndex === 4 ? " is-goal" : ""}`;
+    tick.style.bottom = `${tickIndex * 25}%`;
+    const label = document.createElement("span");
+    label.textContent = Math.round((safeGoal * tickIndex) / 4).toLocaleString("en-US");
+    tick.appendChild(label);
     scale.appendChild(tick);
-  });
+  }
 }
 
 // ========================= REACH GOALS + TOASTS ========================= //

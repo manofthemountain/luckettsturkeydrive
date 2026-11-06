@@ -41,15 +41,31 @@
 
     <section id="tracker" aria-labelledby="tracker-heading">
       <h2 id="tracker-heading">Goal</h2>
-      <div id="thermo-wrapper" role="img" aria-label="Donation progress thermometer showing families fed">
-        <div id="thermo-outline">
-          <div id="thermo-fill" aria-hidden="true"></div>
-          <div id="thermo-bulb" aria-hidden="true"></div>
-          <div id="thermo-scale" aria-hidden="true"></div>
+      <div class="tracker-card">
+        <div id="thermo-wrapper" role="progressbar" aria-label="Families supported toward the Turkey Drive goal" aria-valuemin="0" aria-valuemax="200" aria-valuenow="0">
+          <div id="thermo-outline" aria-hidden="true">
+            <div id="thermo-tube">
+              <div id="thermo-fill"></div>
+            </div>
+            <div id="thermo-bulb"></div>
+            <div id="thermo-scale"></div>
+          </div>
+        </div>
+        <div class="tracker-summary">
+          <p class="tracker-eyebrow">Our community, making a difference</p>
+          <div class="tracker-total">
+            <strong id="families-count">0</strong>
+            <span>of <strong id="families-goal">200</strong> families</span>
+          </div>
+          <div class="tracker-percentage">
+            <strong id="goal-percentage">0%</strong>
+            <span>of our goal reached</span>
+          </div>
+          <p id="families-remaining" class="families-remaining">Every turkey counts!</p>
+          <p id="progress-text" aria-live="polite">Loading...</p>
+          <p id="last-updated"></p>
         </div>
       </div>
-      <p id="progress-text" aria-live="polite">Loading...</p>
-      <p id="last-updated"></p>
     </section>
 
     <section id="reach-goals" aria-labelledby="goals-heading">
